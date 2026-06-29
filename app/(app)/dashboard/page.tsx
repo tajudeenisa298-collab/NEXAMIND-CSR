@@ -50,6 +50,7 @@ export default function DashboardPage() {
   const { activeOrganization } = useOrganization();
   const [executiveDashboard, setExecutiveDashboard] = useState<ExecutiveDashboard | null>(null);
   const [dashboardStatus, setDashboardStatus] = useState<"loading" | "live" | "fallback">("loading");
+  const [conversationSearch, setConversationSearch] = useState("");
   const conversations = demoConversations.filter(
     (conversation) => conversation.organizationId === activeOrganization.id
   );
@@ -104,6 +105,7 @@ export default function DashboardPage() {
   }, [conversations.length, docs.length, enabledWorkflows]);
 
   const supportRows = conversations.map((conversation) => ({
+    conversationId: conversation.id,
     id: conversation.id.replace("conv_", "#"),
     customer: conversation.customer,
     issue: conversation.subject,
@@ -112,6 +114,12 @@ export default function DashboardPage() {
     priority: conversation.priority,
     status: conversation.status
   }));
+  const filteredSupportRows = supportRows.filter((row) =>
+    [row.customer, row.issue, row.intent, row.sentiment, row.status, row.id]
+      .join(" ")
+      .toLowerCase()
+      .includes(conversationSearch.toLowerCase())
+  );
 
   const supportVolume = metricMap.get("Support Volume")?.value || String(conversations.length);
   const aiResolution = metricMap.get("AI Resolution")?.value || `${fallbackAiResolution}%`;
@@ -199,13 +207,13 @@ export default function DashboardPage() {
           </p>
           <div className="list">
             {docs.map((doc) => (
-              <div className="list-row" key={doc.id}>
+              <Link className="list-row clickable-row" href={`/knowledge?source=${encodeURIComponent(doc.id)}`} key={doc.id}>
                 <div>
                   <strong>{doc.title}</strong>
                   <span className="muted">{doc.category} / {doc.chunks} chunks</span>
                 </div>
                 <span className={doc.status === "Ready" ? "badge success" : "badge warning"}>{doc.status}</span>
-              </div>
+              </Link>
             ))}
             {!docs.length ? (
               <div className="empty-state">
@@ -223,13 +231,13 @@ export default function DashboardPage() {
           </p>
           <div className="list">
             {workflows.map((workflow) => (
-              <div className="list-row" key={workflow.id}>
+              <Link className="list-row clickable-row" href="/automation" key={workflow.id}>
                 <div>
                   <strong>{workflow.name}</strong>
                   <span className="muted">{workflow.trigger} to {workflow.destination}</span>
                 </div>
                 <span className={workflow.enabled ? "badge success" : "badge"}>{workflow.enabled ? "Enabled" : "Paused"}</span>
-              </div>
+              </Link>
             ))}
             <div className="list-row">
               <div>
@@ -267,7 +275,13 @@ export default function DashboardPage() {
             <h2>Recent support conversations</h2>
           </div>
           <div className="dashboard-table-actions">
-            <span className="table-search">Search...</span>
+            <input
+              aria-label="Search recent support conversations"
+              className="table-search"
+              onChange={(event) => setConversationSearch(event.target.value)}
+              placeholder="Search conversations..."
+              value={conversationSearch}
+            />
             <Link className="button secondary" href="/support-chat">
               <MessageSquareText size={16} />
               Open AI Chat
@@ -283,8 +297,13 @@ export default function DashboardPage() {
             <span>Sentiment</span>
             <span>Status</span>
           </div>
-          {supportRows.map((row, index) => (
-            <div className="premium-table-row" key={row.id} style={{ animationDelay: `${index * 55}ms` }}>
+          {filteredSupportRows.map((row, index) => (
+            <Link
+              className="premium-table-row clickable-table-row"
+              href={`/support-chat?conversationId=${encodeURIComponent(row.conversationId)}`}
+              key={row.id}
+              style={{ animationDelay: `${index * 55}ms` }}
+            >
               <span className="pill-id">{row.id}</span>
               <strong>{row.customer}</strong>
               <span>{row.issue}</span>
@@ -293,12 +312,12 @@ export default function DashboardPage() {
               <span className={row.status === "Escalated" ? "badge warning" : row.status === "Waiting" ? "badge" : "badge success"}>
                 {row.status}
               </span>
-            </div>
+            </Link>
           ))}
-          {!supportRows.length ? (
+          {!filteredSupportRows.length ? (
             <div className="empty-state table-empty">
-              <strong>No support conversations yet</strong>
-              <p className="muted">Ask the Company Brain a question to create the first measurable support turn.</p>
+              <strong>{supportRows.length ? "No matching conversations" : "No support conversations yet"}</strong>
+              <p className="muted">{supportRows.length ? "Try a customer, intent, status, or issue keyword." : "Ask the Company Brain a question to create the first measurable support turn."}</p>
             </div>
           ) : null}
         </div>

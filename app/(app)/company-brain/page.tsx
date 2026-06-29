@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import {
   BrainCircuit,
   CheckCircle2,
@@ -11,7 +12,8 @@ import {
   Loader2,
   Network,
   RefreshCw,
-  Sparkles
+  Sparkles,
+  Upload
 } from "lucide-react";
 import { StatCard } from "@/components/stat-card";
 import { companyBrainPipeline, normalizeWebsiteInput, type CompanyBrain } from "@/lib/company-brain";
@@ -48,6 +50,8 @@ export default function CompanyBrainPage() {
   const [error, setError] = useState("");
   const [missingConfig, setMissingConfig] = useState<string[]>([]);
   const [hasAutostarted, setHasAutostarted] = useState(false);
+  const [trainingNote, setTrainingNote] = useState("");
+  const [trainingFiles, setTrainingFiles] = useState<string[]>([]);
 
   const loadPersistedState = useCallback(async () => {
     setLoading(true);
@@ -231,6 +235,65 @@ export default function CompanyBrainPage() {
         </form>
       </section>
 
+      <section className="grid cols-2" style={{ marginTop: 16 }}>
+        <div className="card">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">Company Brain Training</span>
+              <h2>Add private knowledge</h2>
+              <p className="muted">Use docs, files, images, screenshots, or notes to teach the AI beyond the public website.</p>
+            </div>
+            <Upload color="var(--accent)" size={20} />
+          </div>
+          <label className="field upload-dropzone">
+            <Upload size={18} />
+            <span>Upload PDFs, docs, images, screenshots, CSVs, or support exports</span>
+            <input
+              multiple
+              onChange={(event) => setTrainingFiles(Array.from(event.target.files || []).map((file) => file.name))}
+              type="file"
+            />
+          </label>
+          {trainingFiles.length ? (
+            <div className="compact-list">
+              {trainingFiles.map((file) => (
+                <div className="list-row" key={file}>
+                  <strong>{file}</strong>
+                  <span className="badge">Ready to ingest</span>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+
+        <div className="card">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">Behavior Rules</span>
+              <h2>Tell the AI what changed</h2>
+              <p className="muted">Add policy updates, launch notes, edge cases, or instructions for specific situations.</p>
+            </div>
+            <Sparkles color="var(--accent)" size={20} />
+          </div>
+          <label className="field">
+            <span>Instruction or update</span>
+            <textarea
+              className="textarea"
+              onChange={(event) => setTrainingNote(event.target.value)}
+              placeholder="Example: Starting July 1, annual Pro customers get priority support and refunds require manager approval."
+              value={trainingNote}
+            />
+          </label>
+          <button className="button" disabled={!trainingNote.trim() && !trainingFiles.length} type="button">
+            <BrainCircuit size={16} />
+            Add to training queue
+          </button>
+          <p className="muted" style={{ fontSize: 13 }}>
+            Next production step: save this to Supabase, parse attachments, create chunks, embed them, and mark it as supplemental knowledge.
+          </p>
+        </div>
+      </section>
+
       {error ? (
         <div className="card" style={{ marginTop: 16 }}>
           <strong>{missingConfig.length ? "Backend setup required" : "Build issue"}</strong>
@@ -336,17 +399,21 @@ export default function CompanyBrainPage() {
                 </div>
                 <Network color="var(--accent)" size={20} />
               </div>
-              <div className="graph-cloud">
-                {graph.map((node) => (
-                  <span className="graph-node" data-group={node.group} key={node.id}>
+              <div className="knowledge-graph-map">
+                <div className="graph-center-node">
+                  <strong>{profile?.company || activeOrganization.name}</strong>
+                  <span>Company Brain</span>
+                </div>
+                {(graph.length ? graph : [{ id: "fallback", label: "Knowledge", group: "Company" }]).slice(0, 10).map((node, index) => (
+                  <span
+                    className="graph-node graph-map-node"
+                    data-group={node.group}
+                    key={node.id}
+                    style={{ "--node-angle": `${index * (360 / Math.min(10, Math.max(graph.length, 1)))}deg` } as CSSProperties}
+                  >
                     {node.label}
                   </span>
                 ))}
-                {!graph.length ? (
-                  <span className="graph-node" data-group="Company">
-                    {profile?.company || activeOrganization.name}
-                  </span>
-                ) : null}
               </div>
             </section>
           </div>

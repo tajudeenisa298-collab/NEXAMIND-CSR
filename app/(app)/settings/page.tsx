@@ -3,10 +3,13 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Save, Trash2 } from "lucide-react";
 import { appEnv, getEnvironmentStatus } from "@/lib/env";
+import { isPlatformAdmin, useAuth } from "@/lib/auth";
 import { useOrganization } from "@/lib/org";
 
 export default function SettingsPage() {
+  const { user } = useAuth();
   const { activeOrganization, organizations, removeOrganization, updateActiveOrganization } = useOrganization();
+  const platformAdmin = isPlatformAdmin(user);
   const [form, setForm] = useState(activeOrganization);
   const [saved, setSaved] = useState(false);
   const [confirmName, setConfirmName] = useState("");
@@ -131,77 +134,97 @@ export default function SettingsPage() {
           </button>
         </form>
 
-        <section className="card settings-section">
-          <h2>Demo Mode</h2>
-          <div className="env-row">
-            <div>
-              <strong>{appEnv.demoMode ? "Demo infrastructure is active" : "Client infrastructure is active"}</strong>
-              <div className="muted">
-                {appEnv.demoMode
-                  ? "Automations can route to your Make.com, Slack, Discord, and email demo accounts."
-                  : "Automations should use the customer-owned integration credentials."}
-              </div>
-            </div>
-            <span className={appEnv.demoMode ? "badge success" : "badge"}>{appEnv.demoMode ? "Demo" : "Client"}</span>
-          </div>
-          <p className="muted">
-            Change `NEXT_PUBLIC_DEMO_MODE` and `DEMO_MODE` in `.env.local`, then restart the app.
-          </p>
-        </section>
-
-        <section className="card settings-section">
-          <h2>Environment variables</h2>
-          <p className="muted">
-            Add these values in `.env.local` when connecting Supabase, OpenAI, and demo infrastructure.
-          </p>
-          <div className="list">
-            {getEnvironmentStatus().map((item) => (
-              <div className="env-row" key={item.key}>
-                <div>
-                  <strong>{item.key}</strong>
-                  <div className="muted">{item.label}</div>
+        {platformAdmin ? (
+          <section className="card settings-section">
+            <h2>Infrastructure mode</h2>
+            <div className="env-row">
+              <div>
+                <strong>{appEnv.demoMode ? "Demo infrastructure is active" : "Client infrastructure is active"}</strong>
+                <div className="muted">
+                  {appEnv.demoMode
+                    ? "Automations can route to your Make.com, Slack, Discord, and email demo accounts."
+                    : "Automations should use the customer-owned integration credentials."}
                 </div>
-                <span className={item.configured ? "badge success" : "badge warning"}>
-                  {item.configured ? "Configured" : "Missing"}
-                </span>
               </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="card settings-section">
-          <h2>Offboard company</h2>
-          <p className="muted">
-            Remove the active company from this demo workspace. In production this maps to
-            tenant offboarding: revoke access, archive data, and remove the organization from the switcher.
-          </p>
-          <div className="env-row">
-            <div>
-              <strong>{activeOrganization.name}</strong>
-              <div className="muted">{activeOrganization.website}</div>
+              <span className={appEnv.demoMode ? "badge success" : "badge"}>{appEnv.demoMode ? "Demo" : "Client"}</span>
             </div>
-            <span className="badge warning">{organizations.length} companies</span>
-          </div>
-          <label className="field">
-            <span>Type company name to confirm</span>
-            <input
-              className="input"
-              onChange={(event) => setConfirmName(event.target.value)}
-              placeholder={activeOrganization.name}
-              value={confirmName}
-            />
-          </label>
-          <button
-            className="button secondary"
-            disabled={confirmName !== activeOrganization.name || removing}
-            onClick={handleRemoveOrganization}
-            type="button"
-          >
-            <Trash2 size={16} />
-            {removing ? "Removing company" : "Remove company"}
-          </button>
-          {removeMessage ? <p className="muted">{removeMessage}</p> : null}
-        </section>
+            <p className="muted">
+              Change `NEXT_PUBLIC_DEMO_MODE` and `DEMO_MODE` in Vercel, then redeploy.
+            </p>
+          </section>
+        ) : (
+          <section className="card settings-section">
+            <h2>Account access</h2>
+            <p className="muted">
+              Your company workspace is isolated. Platform infrastructure, environment variables,
+              demo controls, and tenant offboarding are managed by Nexamind admins.
+            </p>
+            <div className="env-row">
+              <div>
+                <strong>{activeOrganization.name}</strong>
+                <div className="muted">{user?.role || "Tenant user"} access</div>
+              </div>
+              <span className="badge success">Tenant</span>
+            </div>
+          </section>
+        )}
+
+        {platformAdmin ? (
+          <section className="card settings-section">
+            <h2>Environment variables</h2>
+            <p className="muted">
+              Owner-only deployment configuration. Tenants never see these values.
+            </p>
+            <div className="list">
+              {getEnvironmentStatus().map((item) => (
+                <div className="env-row" key={item.key}>
+                  <div>
+                    <strong>{item.key}</strong>
+                    <div className="muted">{item.label}</div>
+                  </div>
+                  <span className={item.configured ? "badge success" : "badge warning"}>
+                    {item.configured ? "Configured" : "Missing"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+        {platformAdmin ? (
+          <section className="card settings-section">
+            <h2>Offboard company</h2>
+            <p className="muted">
+              Owner-only tenant offboarding: revoke access, archive data, and remove the organization from the switcher.
+            </p>
+            <div className="env-row">
+              <div>
+                <strong>{activeOrganization.name}</strong>
+                <div className="muted">{activeOrganization.website}</div>
+              </div>
+              <span className="badge warning">{organizations.length} companies</span>
+            </div>
+            <label className="field">
+              <span>Type company name to confirm</span>
+              <input
+                className="input"
+                onChange={(event) => setConfirmName(event.target.value)}
+                placeholder={activeOrganization.name}
+                value={confirmName}
+              />
+            </label>
+            <button
+              className="button secondary"
+              disabled={confirmName !== activeOrganization.name || removing}
+              onClick={handleRemoveOrganization}
+              type="button"
+            >
+              <Trash2 size={16} />
+              {removing ? "Removing company" : "Remove company"}
+            </button>
+            {removeMessage ? <p className="muted">{removeMessage}</p> : null}
+          </section>
+        ) : null}
       </div>
     </>
   );

@@ -281,6 +281,13 @@ export default function SupportChatPage() {
   }, [activeOrganization.id, loadConversations, loadSuggestedQuestions]);
 
   useEffect(() => {
+    const conversationId = new URLSearchParams(window.location.search).get("conversationId");
+    if (conversationId && conversationId !== activeConversationId) {
+      void loadConversation(conversationId);
+    }
+  }, [activeConversationId, loadConversation]);
+
+  useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, streaming]);
 
