@@ -1,0 +1,506 @@
+
+
+--- PAGE 1 ---
+09_AUTOMATION_ENGINE.md
+Automation Engine PRD
+Overview
+The Automation Engine is what transforms SupportFlow AI from an intelligent chatbot into an
+autonomous support operations platform.
+While the AI understands customer conversations, the Automation Engine executes business workflows
+without requiring human intervention.
+Instead of merely answering questions, the system should be capable of performing actions.
+Examples include:
+• Creating support tickets
+• Sending emails
+• Posting Slack notifications
+• Creating Discord alerts
+• Scheduling follow-ups
+• Updating customer records
+• Triggering internal workflows
+• Requesting additional information
+The automation layer should be modular so organizations can connect their existing tools without
+changing their support process.
+Design Philosophy
+The AI decides.
+The Automation Engine executes.
+Every customer conversation should answer two questions:
+1. Can the AI solve this?
+If yes:
+Respond.
+If no:
+Proceed to Question 2.
+1
+
+
+--- PAGE 2 ---
+2. Can software perform the next action?
+If yes:
+Trigger automation.
+If no:
+Escalate to a human.
+Architecture
+Customer
+↓
+AI Conversation Engine
+↓
+Decision Engine
+↓
+Automation Engine
+↓
+Workflow Router
+↓
+Make.com
+↓
+Connected Services
+↓
+Confirmation
+↓
+Customer
+2
+
+
+--- PAGE 3 ---
+Responsibilities
+The Automation Engine should:
+• Execute workflows
+• Pass structured data
+• Retry failed workflows
+• Log execution history
+• Report failures
+• Return results to AI
+• Notify administrators
+Workflow Lifecycle
+Every automation follows the same lifecycle.
+Conversation
+↓
+Intent Detected
+↓
+Action Required
+↓
+Workflow Selected
+↓
+Validate Inputs
+↓
+Execute Workflow
+↓
+Receive Response
+↓
+Update Conversation
+↓
+3
+
+
+--- PAGE 4 ---
+Notify Customer
+↓
+Log Analytics
+Workflow Categories
+Customer Support
+Examples
+Create Ticket
+Assign Agent
+Request Logs
+Collect Screenshots
+Close Ticket
+Reopen Ticket
+Escalate Priority
+Billing
+Examples
+Invoice Request
+Payment Verification
+Subscription Upgrade
+Subscription Downgrade
+Cancel Subscription
+Refund Request
+Charge Review
+4
+
+
+--- PAGE 5 ---
+Product Support
+Examples
+Generate API Key
+Retrieve Documentation
+Check Service Status
+Known Incident Lookup
+Product Version Lookup
+Maintenance Notices
+Internal Notifications
+Examples
+Slack
+Discord
+Email
+Webhook
+SMS (Future)
+Teams (Future)
+Customer Success
+Examples
+Schedule Demo
+Book Meeting
+Enterprise Follow-up
+Feature Request
+Product Feedback
+5
+
+
+--- PAGE 6 ---
+Bug Report
+Make.com Integration
+The MVP uses Make.com as the workflow orchestrator.
+SupportFlow sends structured JSON.
+Example
+{
+"workflow":"refund_request",
+"customer_email":"john@example.com",
+"conversation_id":"123",
+"reason":"Duplicate charge",
+"priority":"High"
+}
+Make.com performs the business logic.
+Returns
+{
+"status":"success",
+"ticket":"SUP-1042"
+}
+AI informs customer.
+Workflow Router
+The router decides which automation should execute.
+Example
+Customer
+"I'd like a refund."
+↓
+Intent
+6
+
+
+--- PAGE 7 ---
+Refund
+↓
+Workflow
+refund_request
+↓
+Execute
+↓
+Complete
+Customer
+"I forgot my password."
+↓
+No automation required.
+↓
+Knowledge retrieval only.
+Input Validation
+Every workflow validates:
+Required fields
+Customer email
+Account ID
+Conversation ID
+Intent
+Permissions
+Missing information
+7
+
+
+--- PAGE 8 ---
+If validation fails
+AI asks customer.
+Example
+Customer
+"I need my invoice."
+↓
+Missing
+Invoice Month
+↓
+AI
+"Which month would you like the invoice for?"
+Retry Logic
+Automation failures should never silently fail.
+Retry Policy
+Attempt 1
+↓
+5 seconds
+↓
+Attempt 2
+↓
+15 seconds
+↓
+Attempt 3
+8
+
+
+--- PAGE 9 ---
+↓
+Failure
+↓
+Notify Admin
+↓
+Inform Customer
+Automation History
+Every execution is stored.
+Fields
+Workflow
+Customer
+Duration
+Status
+Inputs
+Outputs
+Error
+Timestamp
+Retry Count
+Notification Engine
+After successful automation
+Notify:
+Customer
+Support Team
+9
+
+
+--- PAGE 10 ---
+Manager (optional)
+Slack
+Discord
+Email
+Example
+Refund Request
+↓
+Finance notified
+↓
+Customer receives confirmation
+↓
+Support ticket created
+↓
+Conversation updated
+Escalation Workflows
+Certain automations automatically create escalations.
+Examples
+Refund
+Legal
+Security
+Account Compromise
+Enterprise
+Repeated Failure
+10
+
+
+--- PAGE 11 ---
+Each escalation includes:
+Conversation
+Summary
+Intent
+Priority
+Attachments
+Suggested Resolution
+Workflow Library
+Initial workflow catalog.
+Billing
+refund_request
+invoice_request
+subscription_upgrade
+subscription_cancel
+payment_issue
+credit_adjustment
+Customer Support
+create_ticket
+assign_agent
+close_ticket
+reopen_ticket
+priority_change
+11
+
+
+--- PAGE 12 ---
+Product
+bug_report
+feature_request
+api_request
+status_check
+maintenance_lookup
+Communication
+send_email
+notify_slack
+notify_discord
+send_webhook
+Conditional Logic
+Example
+Refund
+↓
+Purchase within refund policy?
+↓
+Yes
+↓
+Create request
+↓
+Notify finance
+↓
+12
+
+
+--- PAGE 13 ---
+Customer confirmation
+↓
+Done
+Purchase outside policy
+↓
+Escalate
+↓
+Manager Review
+Workflow Builder (Future)
+Future versions allow admins to visually create workflows.
+Example
+Customer
+↓
+Refund Intent
+↓
+Collect Purchase Date
+↓
+Within Policy?
+↓
+Yes
+↓
+Create Ticket
+↓
+13
+
+
+--- PAGE 14 ---
+Notify Finance
+↓
+Email Customer
+↓
+Done
+No coding required.
+PicX Studio Demo Workflows
+To make the prototype feel purpose-built, include workflows for realistic PicX support scenarios.
+Workflow 1
+Image Generation Failed
+↓
+Collect:
+Browser
+Prompt
+Generation ID
+↓
+Create Support Ticket
+↓
+Notify Engineering
+↓
+Reply to Customer
+Workflow 2
+Credits Missing
+14
+
+
+--- PAGE 15 ---
+↓
+Collect Account Email
+↓
+Verify Purchase
+↓
+Notify Billing
+↓
+Respond
+Workflow 3
+Refund Request
+↓
+Collect Purchase Date
+↓
+Collect Reason
+↓
+Submit Workflow
+↓
+Ticket Created
+↓
+Customer Confirmation
+Workflow 4
+Commercial License Question
+↓
+15
+
+
+--- PAGE 16 ---
+Knowledge Search
+↓
+If confidence high
+Respond
+↓
+Else
+Escalate
+Workflow 5
+Enterprise Inquiry
+↓
+Collect Company Size
+↓
+Collect Use Case
+↓
+Create Sales Lead
+↓
+Notify Sales Team
+Monitoring
+Dashboard should display:
+Workflow Success Rate
+Average Duration
+Failures
+Retries
+16
+
+
+--- PAGE 17 ---
+Queue Length
+Execution Time
+Most Triggered Workflows
+Security
+Every workflow must:
+Validate user permissions
+Sanitize inputs
+Encrypt sensitive data
+Log execution
+Prevent duplicate submissions
+API Contract
+Every workflow receives:
+Conversation ID
+Customer ID
+Organization ID
+Intent
+Entities
+Customer Metadata
+Conversation Summary
+Attachments
+Every workflow returns:
+Status
+Message
+17
+
+
+--- PAGE 18 ---
+Next Action
+Workflow ID
+Execution Time
+Extensibility
+Future integrations
+Stripe
+HubSpot
+Zendesk
+Intercom
+Salesforce
+Freshdesk
+Linear
+GitHub
+Jira
+Twilio
+Calendly
+Google Calendar
+Success Criteria
+The customer should never know that multiple systems are working behind the scenes.
+From their perspective:
+They ask a question.
+The assistant understands.
+The right business process happens automatically.
+18
+
+
+--- PAGE 19 ---
+The customer receives confirmation.
+Everything feels effortless.
+For the PicX Studio demo, the automation engine should create the impression that repetitive support
+operations—such as refund requests, credit issues, and generation failures—can move from
+conversation to resolution with minimal manual effort, allowing the support team to focus on
+exceptional cases rather than repetitive administrative tasks.
+19

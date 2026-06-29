@@ -1,0 +1,548 @@
+
+
+--- PAGE 1 ---
+04_DATABASE_SCHEMA.md
+Database Schema
+Overview
+SupportFlow AI is designed around a relational database using Supabase PostgreSQL with pgvector
+for semantic search.
+The database has four primary responsibilities:
+1. Store organizations and users.
+2. Store conversations and support activity.
+3. Store the AI knowledge base.
+4. Store analytics and automation history.
+The schema is designed to support multi-tenancy, ensuring every organization's data remains
+completely isolated.
+Database Design Principles
+The schema should be:
+• Normalized
+• Scalable
+• Secure
+• Multi-tenant
+• AI-friendly
+• Audit-friendly
+Every table must include:
+• UUID primary key
+• created_at
+• updated_at
+• organization_id (where applicable)
+Entity Relationship Diagram
+Organization
+│
+├── Users
+│
+1
+
+
+--- PAGE 2 ---
+├── Knowledge Base
+│
+├── Documents
+│
+├── Embeddings
+│
+├── Conversations
+│ │
+│ ├── Messages
+│ │
+│ ├── Attachments
+│ │
+│ ├── AI Decisions
+│ │
+│ └── Escalations
+│
+├── Tickets
+│
+├── Analytics
+│
+├── Automations
+│
+└── Settings
+organizations
+Stores every company using SupportFlow AI.
+Columns
+Column Type
+id UUID
+company_name TEXT
+company_slug TEXT
+logo_url TEXT
+website TEXT
+support_email TEXT
+brand_color TEXT
+timezone TEXT
+plan TEXT
+2
+
+
+--- PAGE 3 ---
+Column Type
+status TEXT
+created_at TIMESTAMP
+updated_at TIMESTAMP
+Example
+PicX Studio
+Logo
+Primary Color
+Support Email
+Timezone
+users
+Stores all authenticated users.
+Includes:
+Customers
+Agents
+Managers
+Admins
+Columns
+Column Type
+id UUID
+organization_id UUID
+first_name TEXT
+last_name TEXT
+email TEXT
+3
+
+
+--- PAGE 4 ---
+Column Type
+avatar_url TEXT
+role ENUM
+status ENUM
+last_login TIMESTAMP
+created_at TIMESTAMP
+Roles
+Customer
+Agent
+Manager
+Admin
+Owner
+conversations
+Every support conversation.
+One row = one conversation.
+Columns
+Column Type
+id UUID
+organization_id UUID
+customer_id UUID
+assigned_agent UUID
+status ENUM
+priority ENUM
+channel TEXT
+current_intent TEXT
+4
+
+
+--- PAGE 5 ---
+Column Type
+sentiment TEXT
+confidence_score FLOAT
+ai_resolved BOOLEAN
+escalated BOOLEAN
+started_at TIMESTAMP
+closed_at TIMESTAMP
+Status
+Open
+Waiting
+Escalated
+Resolved
+Closed
+messages
+Stores every message.
+Both AI and Human.
+Columns
+Column Type
+id UUID
+conversation_id UUID
+sender_type ENUM
+sender_id UUID
+message TEXT
+model TEXT
+tokens INTEGER
+5
+
+
+--- PAGE 6 ---
+Column Type
+citations JSON
+created_at TIMESTAMP
+Sender Types
+Customer
+AI
+Human
+System
+attachments
+Stores uploaded files.
+Columns
+conversation_id
+message_id
+file_name
+file_size
+mime_type
+storage_path
+created_at
+Supported
+Images
+PDF
+ZIP
+6
+
+
+--- PAGE 7 ---
+TXT
+DOCX
+Screenshots
+intents
+Stores detected intents.
+Columns
+conversation_id
+intent
+confidence
+reasoning
+created_at
+Examples
+Billing
+Refund
+Credits
+API
+Login
+Generation Failure
+Feature Request
+Sales
+Bug
+Unknown
+7
+
+
+--- PAGE 8 ---
+ai_decisions
+Every reasoning step performed by AI.
+Used for debugging.
+Columns
+conversation_id
+decision_type
+confidence
+action_taken
+reason
+latency
+created_at
+Example
+Decision
+Escalate
+Confidence
+96%
+Reason
+Billing Exception
+knowledge_documents
+Stores uploaded documents.
+Columns
+id
+8
+
+
+--- PAGE 9 ---
+organization_id
+title
+category
+source_url
+document_type
+status
+checksum
+created_at
+Categories
+Pricing
+FAQ
+Policies
+API
+Release Notes
+Documentation
+Tutorial
+Internal Notes
+document_chunks
+Every uploaded document is split into chunks.
+Columns
+id
+document_id
+9
+
+
+--- PAGE 10 ---
+chunk_index
+content
+token_count
+embedding_id
+created_at
+Purpose
+Improves retrieval quality.
+embeddings
+Vector metadata.
+Actual vectors stored with pgvector.
+Columns
+id
+chunk_id
+embedding_model
+vector
+created_at
+Purpose
+Semantic search.
+tickets
+Created whenever escalation occurs.
+10
+
+
+--- PAGE 11 ---
+Columns
+id
+conversation_id
+assigned_agent
+status
+priority
+summary
+internal_notes
+created_at
+resolved_at
+Statuses
+New
+Open
+In Progress
+Waiting
+Resolved
+Closed
+escalations
+Tracks AI → Human transfers.
+Columns
+conversation_id
+reason
+11
+
+
+--- PAGE 12 ---
+trigger
+summary
+assigned_to
+created_at
+Triggers
+Low Confidence
+Negative Sentiment
+Refund
+Security
+Bug
+Manual Request
+automations
+Tracks Make.com executions.
+Columns
+workflow_name
+status
+input
+output
+latency
+created_at
+Examples
+Create Ticket
+12
+
+
+--- PAGE 13 ---
+Slack Notification
+Email Customer
+CRM Update
+analytics_daily
+Daily metrics.
+Columns
+organization_id
+date
+conversations
+resolved_by_ai
+escalated
+average_response_time
+average_resolution_time
+csat
+analytics_monthly
+Monthly summaries.
+Metrics
+Conversation Growth
+Resolution Rate
+Automation %
+Money Saved
+Ticket Reduction
+13
+
+
+--- PAGE 14 ---
+Average Wait Time
+feedback
+Customer feedback.
+Columns
+conversation_id
+rating
+comment
+created_at
+Ratings
+👍 Helpful
+👎 Not Helpful
+Five-star scale (future)
+audit_logs
+Every admin action.
+Columns
+user_id
+action
+resource
+resource_id
+ip_address
+created_at
+14
+
+
+--- PAGE 15 ---
+Examples
+Updated Prompt
+Deleted Document
+Added Agent
+Changed API Key
+Uploaded Knowledge
+api_keys
+Stores encrypted integration credentials.
+Columns
+organization_id
+provider
+encrypted_key
+status
+created_at
+Providers
+OpenAI
+Slack
+Discord
+Stripe
+GitHub
+Make.com
+15
+
+
+--- PAGE 16 ---
+organization_settings
+Workspace configuration.
+Settings
+Brand Name
+Logo
+Theme
+AI Tone
+Greeting Message
+Escalation Threshold
+Business Hours
+Support Email
+Language
+conversation_memory
+Stores summarized memory.
+Purpose
+Avoid sending entire conversation to the LLM.
+Columns
+conversation_id
+summary
+token_count
+updated_at
+Example Summary
+16
+
+
+--- PAGE 17 ---
+Customer has Pro Plan.
+Previously reported rendering issues.
+Uses API.
+Interested in Enterprise.
+ai_metrics
+Performance monitoring.
+Tracks
+Model
+Latency
+Token Usage
+Prompt Tokens
+Completion Tokens
+Cost
+Cache Hits
+Failures
+relationships
+Organization
+├── Users
+├── Knowledge Documents
+│ └── Chunks
+│ └── Embeddings
+│
+├── Conversations
+17
+
+
+--- PAGE 18 ---
+│ ├── Messages
+│ ├── Attachments
+│ ├── Intents
+│ ├── AI Decisions
+│ ├── Escalations
+│ └── Feedback
+│
+├── Tickets
+├── Analytics
+├── Automations
+└── Settings
+Row Level Security (Supabase)
+Every table must enforce organization isolation.
+Example policy:
+User may only access rows where
+organization_id = current_user.organization_id
+Customers
+Only own conversations.
+Agents
+Only assigned tickets.
+Managers
+Entire organization.
+Admins
+Everything.
+18
+
+
+--- PAGE 19 ---
+Index Strategy
+Indexes required
+conversation_id
+organization_id
+customer_id
+created_at
+intent
+status
+priority
+embedding vector
+document_id
+ticket status
+This ensures fast retrieval even with millions of conversations.
+Backup Strategy
+Daily automatic backups.
+Point-in-time recovery.
+Document version history.
+Soft deletes for critical tables.
+Audit logging enabled.
+PicX Studio Demo Dataset
+For the personalized demo, seed the database with realistic—but clearly fictional—data that mirrors
+PicX Studio's product:
+19
+
+
+--- PAGE 20 ---
+Knowledge Base
+• Subscription plans
+• Credit system
+• AI image generation guides
+• Rendering troubleshooting
+• Billing FAQ
+• Commercial licensing
+• API documentation
+• Refund policy
+Sample Conversations
+• "My credits disappeared."
+• "Why did my render fail?"
+• "Can I upgrade my subscription?"
+• "Where can I download my invoice?"
+• "Can I use generated images commercially?"
+Sample Analytics
+Populate the dashboard with demo metrics and clearly label them as Demo Data to avoid implying they
+are real operational statistics.
+The objective is for the database to convincingly support the Loom demonstration while remaining
+reusable for future customer deployments simply by replacing the seeded organization, branding,
+documentation, and knowledge base.
+20

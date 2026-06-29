@@ -1,0 +1,438 @@
+
+
+--- PAGE 1 ---
+08_CUSTOMER_CHAT_EXPERIENCE.md
+Customer Chat Experience PRD
+Overview
+The customer chat experience is the most important component of SupportFlow AI.
+It is the product.
+Every interaction a customer has with the platform should reinforce one belief:
+"This company has incredible customer support."
+The customer should never feel like they are talking to a chatbot.
+Instead, they should feel like they are speaking with an experienced support engineer who understands
+the product, remembers previous conversations, and is capable of solving problems immediately.
+The chat interface should be clean, modern, and frictionless.
+Design Principles
+The interface should feel inspired by:
+• ChatGPT
+• Intercom Messenger
+• Linear
+• Vercel
+• Notion
+Characteristics
+• Minimal
+• Fast
+• Beautiful
+• Modern
+• Premium
+• Calm
+No clutter.
+No unnecessary buttons.
+1
+
+
+--- PAGE 2 ---
+Customer Journey
+Customer Opens Chat
+↓
+Greeting
+↓
+Customer Asks Question
+↓
+AI Understands Intent
+↓
+Knowledge Search
+↓
+AI Responds
+↓
+Customer Replies
+↓
+Issue Solved?
+│
+├── Yes → Close Conversation
+│
+└── No
+↓
+Gather Information
+↓
+Escalate to Human
+2
+
+
+--- PAGE 3 ---
+Chat Launcher
+The floating widget appears in the lower-right corner.
+Example
+💬 Need help?
+Ask our AI Support Assistant.
+Hover animation.
+Unread notification support.
+Light/Dark mode.
+Welcome Screen
+The customer is welcomed with a personalized greeting.
+Example
+Hi 👋
+Welcome to PicX Studio Support.
+I'm here to help with:
+• Billing
+• Credits
+• AI Image Generation
+• API Questions
+• Subscription Plans
+• Technical Issues
+How can I help today?
+Quick Action Buttons
+3
+
+
+--- PAGE 4 ---
+Check Credits
+Billing
+Image Failed
+Refund
+Upgrade Plan
+API Docs
+These reduce friction.
+Chat Layout
+-------------------------------------
+PicX Studio Support
+Online
+-------------------------------------
+AI Messages
+Customer Messages
+Streaming Responses
+Typing Indicator
+-------------------------------------
+Message Box
+Send Button
+Attachment Button
+-------------------------------------
+4
+
+
+--- PAGE 5 ---
+Message Composer
+Supports
+Plain Text
+Markdown
+Code
+Images
+PDF
+Screenshots
+Drag & Drop
+Paste Images
+Auto-resize textarea
+Streaming Responses
+AI responses should stream token-by-token.
+Never wait until the entire response is complete.
+The customer should immediately see that work is happening.
+Typing Indicators
+Display
+"Searching documentation..."
+instead of
+"AI is typing..."
+Later stages
+"Checking your subscription..."
+5
+
+
+--- PAGE 6 ---
+"Looking through our documentation..."
+"Preparing your answer..."
+These make the assistant feel intelligent.
+Suggested Prompts
+If conversation is empty:
+Examples
+"My render failed."
+"I need a refund."
+"How many credits do I have?"
+"Can I use my images commercially?"
+"How do I upgrade?"
+Rich Responses
+Support more than plain text.
+Cards
+Buttons
+Images
+Links
+Tables
+Code Blocks
+Videos
+Documentation Preview
+Example
+6
+
+
+--- PAGE 7 ---
+Customer
+"My render failed."
+Response
+Problem explanation
+↓
+Possible causes
+↓
+Button
+Open Troubleshooting Guide
+↓
+Button
+Retry Generation
+↓
+Button
+Contact Human Support
+AI Response Structure
+Every response should follow:
+1. Acknowledge
+2. Explain
+3. Solve
+4. Offer next action
+Example
+"I can help with that.
+Generation failures usually happen for one of three reasons.
+7
+
+
+--- PAGE 8 ---
+Let's first check whether your account still has available credits."
+Follow-Up Questions
+The AI should ask one question at a time.
+Bad
+"What's your browser, operating system, account email, subscription plan, error message, and
+generation ID?"
+Good
+"Could you tell me what error message you're seeing?"
+Attachments
+Customers can upload
+Screenshots
+Error Images
+Invoices
+PDF
+ZIP
+Logs
+Prompt Files
+Reference Images
+Future
+Video recordings
+Image Understanding
+The AI should analyze screenshots.
+8
+
+
+--- PAGE 9 ---
+Example
+Customer uploads
+Payment error screenshot.
+AI extracts
+Invoice
+Error Code
+Transaction ID
+Suggested solution
+Smart Forms
+Instead of long forms.
+Conversation builds forms naturally.
+Customer
+"I need a refund."
+↓
+AI
+"When was the purchase made?"
+↓
+Customer
+"Yesterday."
+↓
+AI
+"What email did you use?"
+↓
+Customer
+9
+
+
+--- PAGE 10 ---
+Answers
+↓
+Refund workflow begins.
+Context Memory
+The assistant remembers:
+Customer Name
+Subscription
+Previous Conversations
+Current Ticket
+Previous Suggestions
+Already Tried Steps
+Never repeat questions.
+AI Confidence
+If confidence drops:
+The assistant admits uncertainty.
+Example
+"I'm not completely confident I have enough information to answer accurately.
+I'd like to connect you with a support specialist."
+Escalation Experience
+Transition should feel seamless.
+Example
+"I've already collected everything our support team needs.
+10
+
+
+--- PAGE 11 ---
+I'm creating a ticket now so you won't have to explain everything again."
+Progress Indicator
+Preparing Ticket
+██████████
+Done
+Human Takeover
+Customer should see
+Support Agent Joined
+↓
+Conversation continues
+↓
+History preserved
+No reset.
+Conversation Summary
+When agent joins
+Automatic summary
+Example
+Issue
+Generation Failure
+Attempted
+Cache Clear
+Browser Change
+11
+
+
+--- PAGE 12 ---
+Credits Verified
+Likely Cause
+Rendering Timeout
+This saves enormous agent time.
+Conversation States
+Idle
+Active
+Waiting for Customer
+Waiting for AI
+Escalated
+Resolved
+Closed
+Archived
+Error Handling
+If OpenAI fails
+Show
+"I'm having trouble generating a response right now.
+Let me connect you with a human."
+Never expose technical errors.
+Offline Mode
+If support is offline
+AI continues.
+12
+
+
+--- PAGE 13 ---
+If escalation required
+Collect
+Email
+Issue
+Attachments
+Promise response time.
+Feedback
+After conversation
+Prompt
+Did this solve your issue?
+👍
+👎
+Optional comment
+Accessibility
+Keyboard navigation
+Screen reader support
+High contrast mode
+Large fonts
+Reduced motion
+ARIA labels
+WCAG compliant
+13
+
+
+--- PAGE 14 ---
+Mobile Experience
+Responsive.
+Chat becomes full-screen.
+Floating launcher becomes bottom tab.
+Attachments supported.
+Streaming retained.
+Conversation Search
+Customers can search previous conversations.
+Examples
+Billing
+Refund
+Credits
+API
+Previous tickets
+Security
+PII detection.
+Mask API keys.
+Mask passwords.
+Warn before sharing sensitive data.
+Encrypted attachments.
+14
+
+
+--- PAGE 15 ---
+Demo Scenarios for PicX Studio
+Prepare scripted examples:
+Scenario 1
+"My image generation failed."
+AI diagnoses.
+Suggests troubleshooting.
+Scenario 2
+"My credits disappeared."
+AI explains billing cycle.
+Offers account verification.
+Scenario 3
+"I need an invoice."
+AI retrieves invoice instructions.
+Scenario 4
+"Can I use generated images commercially?"
+AI references licensing policy.
+Scenario 5
+"I'd like a refund."
+AI collects details.
+Creates support ticket.
+Scenario 6
+"I've already tried everything."
+15
+
+
+--- PAGE 16 ---
+AI detects frustration.
+Escalates.
+Provides summary.
+Microinteractions
+Tiny details matter.
+Animate
+Typing indicator
+Cards
+Buttons
+Transitions
+Loading
+Hover states
+Message appearance
+Everything should feel polished.
+Branding
+The demo should use:
+PicX Studio logo
+Brand colors
+Brand fonts
+Product terminology
+Support language
+Documentation wording
+Even the greeting should feel like PicX wrote it.
+16
+
+
+--- PAGE 17 ---
+Success Criteria
+A first-time user should be able to solve a common support issue in under three minutes without
+reading documentation or waiting for a human response.
+During the Loom, Caitlin should forget she's looking at a prototype.
+She should instead think:
+"This already understands our product, our customers, and the exact questions our
+support team answers every day. I can actually picture this replacing a large portion
+of our Tier 1 support."
+That emotional reaction—not the technology itself—is the success metric for this entire customer
+experience.
+17

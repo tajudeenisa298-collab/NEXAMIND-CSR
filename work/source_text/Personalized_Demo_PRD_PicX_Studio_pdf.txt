@@ -1,0 +1,379 @@
+
+
+--- PAGE 1 ---
+13_PICX_STUDIO_PERSONALIZED_DEMO.md
+Personalized Demo PRD — PicX Studio
+Confidential Demo
+This deployment is a customized proof-of-concept built specifically for PicX Studio. While
+SupportFlow AI is a multi-tenant platform, every aspect of this demo should make it
+appear as though it was designed exclusively for PicX Studio's support team.
+Objective
+This is not a chatbot demo.
+This is not a technical demonstration.
+This is not an AI showcase.
+The objective is to create a reaction from Caitlin like:
+"How did they understand our support operation this well?"
+The demo should feel like someone spent weeks shadowing the PicX Studio support team.
+Demo Story
+The Loom should tell a story.
+Not show features.
+The story is:
+"I became one of your customers. I experienced your support firsthand. Then I
+spent time thinking about how AI could remove repetitive work from your team
+while making the customer experience dramatically better."
+Everything inside the product supports that narrative.
+Personalization Principles
+Everything must feel like PicX.
+1
+
+
+--- PAGE 2 ---
+Not "SupportFlow."
+The customer should forget this is another company.
+Branding
+Use
+PicX Logo
+PicX Colors
+PicX Typography
+PicX Terminology
+PicX Icons
+PicX Product Names
+PicX Navigation
+Example
+Instead of
+"Credits"
+Use exactly whatever PicX calls them.
+Instead of
+"Projects"
+Use their wording.
+The vocabulary matters.
+Homepage
+---------------------------------------------------
+PicX Studio Support
+2
+
+
+--- PAGE 3 ---
+Instant AI Support
+Helping creators succeed faster.
+---------------------------------------------------
+Ask anything...
+__________________________________
+Greeting
+Hi 👋
+Welcome back to PicX Studio.
+I'm here to help with:
+• Image Generation
+• Credits
+• Billing
+• API
+• Licensing
+• Rendering
+• Prompt Help
+How can I help today?
+Suggested Questions
+Use realistic examples.
+My image generation failed.
+My credits disappeared.
+How do I upgrade?
+3
+
+
+--- PAGE 4 ---
+Can I use generated images commercially?
+Where is my invoice?
+My API request failed.
+Demo Dataset
+The platform should contain realistic conversations.
+Not lorem ipsum.
+Not fake support examples.
+Conversation 1
+Customer
+"My image stopped generating around 82%."
+Conversation 2
+"I upgraded yesterday but didn't receive credits."
+Conversation 3
+"My upscale keeps failing."
+Conversation 4
+"I need my invoice."
+Conversation 5
+"Can I sell images created with PicX?"
+Conversation 6
+"My API key isn't working."
+4
+
+
+--- PAGE 5 ---
+Conversation 7
+"The render queue seems stuck."
+Conversation 8
+"My subscription renewed twice."
+Customer Profiles
+Populate realistic customers.
+Example
+Emily
+Agency Owner
+Enterprise
+Using PicX for client work.
+Michael
+YouTube Creator
+Pro
+Generates thumbnails daily.
+Sarah
+Designer
+Plus
+Heavy credit usage.
+David
+Developer
+5
+
+
+--- PAGE 6 ---
+Enterprise API
+Building internal tools.
+Dashboard Metrics
+Everything should feel believable.
+Example
+Today's Conversations
+314
+AI Resolution
+83%
+Average Response
+2.3 seconds
+Human Escalations
+17%
+Customer Satisfaction
+96%
+Credits Questions
+28%
+Generation Failures
+24%
+Billing
+6
+
+
+--- PAGE 7 ---
+18%
+API
+11%
+Prompt Help
+9%
+Licensing
+5%
+Other
+5%
+Clearly label these metrics as Demo Data.
+Knowledge Base
+Populate with realistic categories.
+Image Generation
+Credits
+Subscriptions
+Billing
+Refunds
+Commercial License
+API
+Prompt Engineering
+Rendering
+7
+
+
+--- PAGE 8 ---
+Export
+Upscaling
+Known Issues
+Release Notes
+Internal Documentation
+Engineering Escalation Guide
+Billing SOP
+Refund Rules
+Credit Sync Troubleshooting
+Known Rendering Bugs
+Incident Response
+VIP Customer Policy
+AI Personality
+The AI should sound like a senior PicX support specialist.
+Never mention
+OpenAI
+ChatGPT
+LLM
+Prompt
+Model
+Vector Database
+Embeddings
+Customers should never see technical language.
+8
+
+
+--- PAGE 9 ---
+Example Conversation
+Customer
+"My render failed."
+AI
+"I'm sorry about that.
+Let's figure out what happened.
+Render failures are usually caused by one of three things:
+• insufficient credits
+• temporary rendering queue congestion
+• unsupported input
+Could you tell me if you received an error message?"
+Customer
+"No."
+AI
+"Thanks.
+I've checked the most common causes.
+Based on what you've described, it looks very similar to a rendering queue issue we've seen before.
+I'll walk you through a couple of quick checks."
+Feels human.
+Demo Automation
+Customer
+9
+
+
+--- PAGE 10 ---
+"I'd like a refund."
+↓
+AI
+Collects
+Purchase Date
+Email
+Reason
+↓
+Workflow executes.
+↓
+Finance notified.
+↓
+Customer updated.
+Never expose Make.com.
+Just show
+Processing...
+↓
+Refund Request Created.
+Human Escalation
+Customer
+"I've already tried everything."
+↓
+AI
+10
+
+
+--- PAGE 11 ---
+"I completely understand.
+I've already gathered everything our support team needs.
+I'm creating a support ticket now so you won't have to explain everything again."
+↓
+Ticket Created.
+↓
+Agent Joins.
+Agent View
+Agent sees
+Conversation Summary
+Suggested Reply
+Knowledge Articles
+Customer Plan
+History
+Attachments
+Known Bug
+Engineering Notes
+Everything already prepared.
+Founder Dashboard
+This section exists specifically for Caitlin.
+Show
+Support Volume
+Automation %
+11
+
+
+--- PAGE 12 ---
+Estimated Savings
+Most Common Issues
+Knowledge Gaps
+Customer Satisfaction
+Growth Trends
+The dashboard should answer
+"What would this save us?"
+within seconds.
+AI Thinking Panel (Demo Only)
+Hidden in production.
+Visible during Loom.
+Example
+Customer Message
+↓
+Intent
+Generation Failure
+Confidence
+98%
+↓
+Retrieved
+Generation Guide
+Known Issue #42
+Credits FAQ
+↓
+12
+
+
+--- PAGE 13 ---
+Action
+Troubleshooting
+↓
+Response Generated
+This immediately differentiates the product.
+Micro Details
+Small touches create realism.
+Use
+PicX favicon
+Support email
+Logo
+Color palette
+Support terminology
+Real documentation titles
+Real pricing names
+Real API terminology
+Demo Script
+Part 1
+Introduce problem.
+"I became a customer..."
+13
+
+
+--- PAGE 14 ---
+Part 2
+Show customer experience.
+Part 3
+Show AI solving issues.
+Part 4
+Trigger automation.
+Part 5
+Escalate.
+Part 6
+Open agent workspace.
+Part 7
+Open dashboard.
+Part 8
+Show knowledge base.
+Part 9
+Show AI reasoning.
+Part 10
+Close.
+"This isn't about replacing your team.
+14
+
+
+--- PAGE 15 ---
+It's about letting your team spend their time solving the problems that actually require humans."
+Emotional Goal
+At the end of the demo, Caitlin shouldn't be thinking:
+"That's a cool AI."
+She should be thinking:
+"This person clearly understood our business."
+And immediately after:
+"How quickly could we actually deploy something like this?"
+That shift—from admiring the technology to imagining it inside PicX Studio—is the entire purpose of
+this personalized demonstration.
+Success Criteria
+The demo succeeds if it achieves these three reactions:
+1. Recognition: "These are the exact support issues we deal with."
+2. Credibility: "This feels like it was built specifically for PicX Studio."
+3. Desire: "I want our team to try this."
+If those three outcomes are achieved, the demo has done its job—not because it's technically
+impressive, but because it feels deeply relevant to PicX Studio's day-to-day operations.
+15

@@ -1,0 +1,471 @@
+
+
+--- PAGE 1 ---
+03_SYSTEM_ARCHITECTURE.md
+System Architecture
+Overview
+SupportFlow AI is designed as a modern AI-native customer support platform built around a modular
+architecture.
+Every major function of the platform should operate as an independent service so the system can scale,
+evolve, and be customized for different companies without major changes.
+The platform should support both cloud deployment (multi-tenant SaaS) and dedicated deployments for
+enterprise customers.
+High-Level Architecture
+Customer
+│
+▼
+AI Chat Widget (Next.js)
+│
+▼
+API Gateway (Next.js)
+│
+┌──────────────────────┼──────────────────────┐
+▼ ▼ ▼
+Conversation Engine Authentication Rate Limiter
+│
+▼
+Intent Detection
+│
+▼
+Retrieval Engine (RAG)
+│
+▼
+OpenAI Response Engine
+│
+▼
+Action Decision Engine
+│
+┌──────┴──────────────┐
+▼ ▼
+Automation Human Escalation
+(Make.com) (Support Queue)
+1
+
+
+--- PAGE 2 ---
+│ │
+▼ ▼
+Email Agent Dashboard
+Slack Ticket System
+Discord Notifications
+▼
+PostgreSQL / Supabase
+▼
+Analytics Engine
+Core Philosophy
+Every customer message passes through the same pipeline.
+Instead of hardcoding chatbot rules, SupportFlow AI reasons about the conversation before deciding
+what should happen.
+Every response follows the sequence:
+1. Understand
+2. Search
+3. Think
+4. Respond
+5. Act
+6. Learn
+System Modules
+The platform consists of eight major services.
+Module 1 — Customer Interface
+Purpose
+Provides the chat experience.
+Responsibilities
+• Display conversations
+• Stream AI responses
+• Upload files
+• Collect user information
+2
+
+
+--- PAGE 3 ---
+• Show typing indicators
+• Handle authentication
+• Start conversations
+Technology
+• Next.js
+• React
+• TailwindCSS
+Module 2 — Conversation Engine
+Purpose
+Acts as the brain of the platform.
+Responsibilities
+Maintain:
+• conversation history
+• memory
+• user context
+• ticket state
+• current workflow
+The conversation engine determines:
+• what the customer is asking
+• whether information is missing
+• whether AI should answer
+• whether automation should execute
+• whether escalation is necessary
+Module 3 — Intent Detection
+Purpose
+Classify customer requests.
+Example intents
+Billing
+Refund
+Subscription
+3
+
+
+--- PAGE 4 ---
+Credits
+Generation Failure
+API Question
+Feature Request
+Bug Report
+Password Reset
+Account Access
+Prompt Help
+Commercial License
+Sales Question
+Unknown
+Each conversation receives:
+Intent
+Confidence Score
+Urgency
+Sentiment
+Example
+Customer
+"My images keep failing."
+↓
+Intent
+Generation Failure
+Confidence
+98%
+4
+
+
+--- PAGE 5 ---
+Priority
+Medium
+Module 4 — Retrieval Engine (RAG)
+Purpose
+Search company knowledge.
+Data sources
+Documentation
+FAQs
+Help Center
+Policies
+Pricing
+Terms
+Known Issues
+Internal Notes
+Release Notes
+Product Documentation
+Developer Documentation
+Community Articles
+The Retrieval Engine should:
+Search
+Rank
+Retrieve
+Pass only relevant information to the LLM
+Never send the entire documentation.
+5
+
+
+--- PAGE 6 ---
+Knowledge Pipeline
+Documentation
+↓
+Chunking
+↓
+Embedding
+↓
+Vector Database
+↓
+Similarity Search
+↓
+Relevant Context
+↓
+OpenAI
+Module 5 — AI Response Engine
+Purpose
+Generate the response.
+Responsibilities
+Interpret retrieved context.
+Generate natural language.
+Ask clarifying questions.
+Refuse unsupported requests.
+Maintain conversation tone.
+6
+
+
+--- PAGE 7 ---
+Never hallucinate documentation.
+Never invent pricing.
+Never invent policy.
+Never invent account information.
+Response Structure
+Greeting
+↓
+Problem Understanding
+↓
+Solution
+↓
+Additional Resources
+↓
+Follow-up Question
+Example
+"I found two possible reasons why your image generation failed.
+The most common cause is running out of credits.
+Could you tell me whether you're seeing an error message?"
+Module 6 — Action Engine
+Purpose
+Determine whether the AI should perform actions.
+Possible actions
+Create support ticket
+7
+
+
+--- PAGE 8 ---
+Send email
+Notify Slack
+Trigger Make.com
+Create Discord notification
+Collect screenshots
+Request browser information
+Verify email
+Assign priority
+Schedule callback
+If no action is required
+Return AI response only.
+Example Workflow
+Customer
+"I was charged twice."
+↓
+AI understands
+↓
+Requires human review
+↓
+Collect payment ID
+↓
+Trigger Make.com
+↓
+Create support ticket
+8
+
+
+--- PAGE 9 ---
+↓
+Notify finance
+↓
+Confirm with customer
+Module 7 — Human Escalation Engine
+Purpose
+Transfer conversations smoothly.
+Escalation conditions
+Confidence below threshold
+Repeated failure
+Negative sentiment
+Explicit request
+Billing exception
+Refund request
+Bug report
+Security issue
+Legal question
+Enterprise request
+Escalation Package
+Conversation history
+Customer information
+Summary
+Intent
+9
+
+
+--- PAGE 10 ---
+Priority
+Suggested response
+Knowledge articles shown
+Attachments
+Support agent immediately sees:
+Everything.
+No repeated questions.
+Module 8 — Analytics Engine
+Purpose
+Measure platform performance.
+Tracks
+Conversation count
+Resolution rate
+Escalation rate
+Most common issues
+Average response time
+Customer satisfaction
+Automation rate
+Knowledge gaps
+Agent workload
+Daily trends
+Monthly trends
+10
+
+
+--- PAGE 11 ---
+Supporting Services
+Authentication
+Supports
+Email
+Magic Link
+Google
+GitHub
+Microsoft
+Future
+SSO
+Notification Service
+Supports
+Email
+Slack
+Discord
+Webhook
+Future
+SMS
+Teams
+File Storage
+Stores
+Screenshots
+Attachments
+11
+
+
+--- PAGE 12 ---
+Logs
+Exports
+Conversation files
+Technology
+Supabase Storage
+Logging
+Every system event should be logged.
+Examples
+Conversation Started
+Intent Detected
+Knowledge Retrieved
+AI Responded
+Workflow Triggered
+Escalated
+Conversation Closed
+Database Overview
+Primary Database
+Supabase PostgreSQL
+Stores
+Users
+Organizations
+Conversations
+Messages
+12
+
+
+--- PAGE 13 ---
+Tickets
+Knowledge
+Embeddings Metadata
+Analytics
+Settings
+Audit Logs
+Vector Database
+Initially
+pgvector
+Future
+Pinecone
+Weaviate
+Qdrant
+AI Layer
+LLM
+OpenAI GPT
+Responsibilities
+Reasoning
+Conversation
+Summaries
+Classification
+Structured Outputs
+Embeddings
+13
+
+
+--- PAGE 14 ---
+OpenAI Embeddings
+Future
+Multiple embedding providers
+External Integrations
+MVP
+OpenAI
+Supabase
+Make.com
+Slack
+Email
+Future
+Zendesk
+Intercom
+HubSpot
+Stripe
+Discord
+Linear
+Jira
+GitHub
+Multi-Tenant Architecture
+Each company has
+Own knowledge base
+Own branding
+14
+
+
+--- PAGE 15 ---
+Own analytics
+Own workflows
+Own support team
+Own API keys
+Own documentation
+No customer data is shared across organizations.
+Performance Targets
+Chat response begins within 2 seconds.
+Intent detection under 500ms.
+Knowledge retrieval under 1 second.
+Escalation creation under 3 seconds.
+Average page load under 2 seconds.
+Dashboard refresh under 1 second.
+99.9% uptime target.
+Security Principles
+No customer conversations are exposed across organizations.
+All API keys are encrypted.
+Role-based permissions.
+Audit logs for administrative actions.
+Secure file uploads.
+Rate limiting.
+Input validation.
+Prompt injection protection.
+15
+
+
+--- PAGE 16 ---
+Knowledge isolation between tenants.
+PicX Studio Demo Deployment
+For the personalized demo, the architecture remains identical, but the data layer is populated
+exclusively with PicX Studio-specific content:
+• Help Center articles
+• Pricing information
+• Subscription plans
+• Credit system documentation
+• Image generation guides
+• API documentation
+• Terms of Service
+• Refund policy
+• Common support scenarios
+• Feature documentation
+The interface is branded with PicX Studio's logo, colors, terminology, and product language so that
+every interaction feels like a production-ready internal support system rather than a generic chatbot
+demo.
+Architecture Design Principles
+The platform must always be:
+• Modular
+• Scalable
+• Multi-tenant
+• AI-first
+• API-driven
+• Secure
+• Observable
+• Extensible
+• Vendor-agnostic where practical
+Every future feature should plug into this architecture without requiring major changes to the existing
+system, allowing SupportFlow AI to evolve from an AI support assistant into a complete customer
+operations platform.
+16

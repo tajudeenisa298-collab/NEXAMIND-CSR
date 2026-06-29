@@ -1,0 +1,475 @@
+
+
+--- PAGE 1 ---
+07_ADMIN_DASHBOARD.md
+Admin Dashboard PRD
+Overview
+The Admin Dashboard is the operational control center of SupportFlow AI.
+Unlike traditional customer support dashboards that only display conversations, SupportFlow AI's
+dashboard is designed to answer one question:
+"How healthy is our customer support operation today?"
+The dashboard should provide executives, support managers, and administrators with a real-time view
+of AI performance, customer satisfaction, team productivity, knowledge quality, and operational
+efficiency.
+For the PicX Studio demo, the dashboard should immediately communicate that support is measurable,
+predictable, and scalable through AI.
+Design Philosophy
+The dashboard should feel like:
+• Linear
+• Vercel
+• Stripe Dashboard
+• Notion
+• Intercom
+Combined into one modern interface.
+The UI should be:
+• Minimal
+• Spacious
+• Fast
+• Premium
+• Dark Mode
+• Card-based
+• Data-first
+Avoid enterprise clutter.
+1
+
+
+--- PAGE 2 ---
+Sidebar Navigation
+Dashboard
+Inbox
+AI Conversations
+Support Tickets
+Knowledge Base
+Automations
+Analytics
+Customers
+Agents
+Integrations
+Settings
+Dashboard Homepage
+The homepage should summarize the entire support operation.
+No scrolling required to understand support health.
+Hero Metrics
+Large KPI cards displayed at the top.
+Conversations Today
+327
++18%
+2
+
+
+--- PAGE 3 ---
+AI Resolution Rate
+82%
+↑ 6%
+Human Escalations
+58
+18%
+Average Response Time
+2.4 sec
+Customer Satisfaction
+97%
+Estimated Monthly Savings
+$21,450
+Note: In demos, clearly label this as an estimated metric derived from configurable assumptions, not
+an actual measured savings figure.
+Live Activity Feed
+Real-time support events.
+Examples
+Customer started conversation
+AI resolved billing issue
+3
+
+
+--- PAGE 4 ---
+Ticket escalated
+Knowledge article retrieved
+Agent joined conversation
+Refund workflow triggered
+Conversation closed
+Updates instantly.
+AI Health Widget
+Displays overall AI performance.
+Metrics
+Average Confidence
+95%
+Average Tokens
+1,250
+Average Retrieval Time
+650ms
+Average LLM Time
+1.4 sec
+Hallucination Rate
+0%
+Escalation Accuracy
+96%
+4
+
+
+--- PAGE 5 ---
+Conversation Distribution
+Pie chart.
+Shows
+Billing
+Credits
+Refunds
+Generation Failures
+API
+Subscriptions
+Login
+Bug Reports
+Feature Requests
+Purpose
+Shows where support workload originates.
+AI vs Human
+Bar chart.
+AI Resolved
+██████████
+Human
+███
+Managers instantly see automation impact.
+5
+
+
+--- PAGE 6 ---
+Ticket Status Overview
+Displays
+Open
+Waiting
+In Progress
+Resolved
+Closed
+Blocked
+Example
+Open
+18
+Waiting
+7
+Resolved
+204
+Closed
+511
+Agent Performance
+Each support agent receives:
+Name
+Tickets handled
+Average resolution time
+Customer satisfaction
+6
+
+
+--- PAGE 7 ---
+Escalation rate
+Active conversations
+Example
+Sarah
+34 tickets
+96% CSAT
+12 min avg
+AI Confidence Distribution
+Histogram.
+95-100%
+█████████
+90-95%
+██████
+80-90%
+██
+Below 80%
+█
+Purpose
+Identify weak responses.
+Knowledge Health
+Displays
+Documents
+7
+
+
+--- PAGE 8 ---
+Chunks
+Embeddings
+Knowledge Gaps
+Outdated Articles
+Duplicate Documents
+Example
+Knowledge Score
+94%
+Articles
+182
+Outdated
+6
+Missing Topics
+3
+Missing Knowledge Widget
+One of the most valuable features.
+Shows questions AI couldn't answer.
+Example
+How do Enterprise Credits work?
+Asked 17 times
+No documentation exists.
+Support managers can immediately create new documentation.
+8
+
+
+--- PAGE 9 ---
+Escalation Reasons
+Pie chart.
+Reasons
+Refund
+Billing
+Bug
+Security
+Low Confidence
+Negative Sentiment
+Customer Requested Human
+Enterprise Inquiry
+Purpose
+Understand why AI hands conversations off.
+Automation Dashboard
+Displays Make.com workflow activity.
+Ticket Created
+213
+Slack Notifications
+148
+Emails Sent
+321
+Refund Requests
+18
+9
+
+
+--- PAGE 10 ---
+Failed Automations
+2
+Clicking any workflow opens execution history.
+Customer Trends
+Graphs
+Daily Conversations
+Weekly Growth
+Monthly Growth
+Peak Hours
+Support Volume
+Example
+Monday
+214
+Tuesday
+289
+Wednesday
+311
+Thursday
+402
+Customer Satisfaction
+Displays
+👍 Helpful
+10
+
+
+--- PAGE 11 ---
+👎 Not Helpful
+Average Rating
+Most Helpful Responses
+Lowest Rated Conversations
+Purpose
+Continuously improve AI quality.
+AI Cost Dashboard
+Track
+OpenAI Cost
+Embedding Cost
+Token Usage
+Cached Requests
+Average Cost Per Conversation
+Estimated Savings
+This helps founders understand ROI.
+Inbox Module
+Displays every active conversation.
+Columns
+Customer
+Status
+Intent
+Priority
+AI Confidence
+11
+
+
+--- PAGE 12 ---
+Agent
+Last Activity
+Selecting a conversation opens a split-screen view.
+Conversation Detail View
+Left Panel
+Conversation
+Center
+Chat Timeline
+Right Panel
+Customer Information
+Detected Intent
+Knowledge Sources Used
+AI Confidence
+Conversation Summary
+Suggested Actions
+Escalation Button
+Ticket Management
+Every escalated ticket contains:
+Customer
+Summary
+Conversation History
+Priority
+Assigned Agent
+12
+
+
+--- PAGE 13 ---
+Status
+Internal Notes
+Attachments
+Suggested Resolution
+Customer Profile
+Each customer has:
+Name
+Email
+Plan
+Joined Date
+Recent Conversations
+Open Tickets
+Previous Tickets
+CSAT History
+Support Timeline
+Conversation Memory
+Knowledge Base Management
+Managers can:
+Upload Documentation
+Delete Documentation
+Edit Metadata
+View Chunking
+View Embeddings
+13
+
+
+--- PAGE 14 ---
+Preview Retrieval
+Regenerate Embeddings
+Version History
+Automation Center
+Displays every Make.com workflow.
+Status
+Running
+Completed
+Failed
+Latency
+Last Run
+Logs
+Retry Button
+Analytics Module
+Reports
+Conversation Volume
+Resolution Rate
+Escalation %
+Knowledge Gaps
+Customer Satisfaction
+Agent Performance
+Token Usage
+Cost Analysis
+14
+
+
+--- PAGE 15 ---
+Automation Savings
+Integrations Page
+Connected Services
+OpenAI
+Supabase
+Slack
+Discord
+Make.com
+Webhook
+Future
+Stripe
+Zendesk
+HubSpot
+GitHub
+Linear
+Each card shows:
+Connected
+Last Sync
+Status
+Reconnect Button
+Settings
+Organization
+Branding
+15
+
+
+--- PAGE 16 ---
+AI Personality
+Prompt Configuration
+Escalation Rules
+Business Hours
+Notification Rules
+Model Selection
+API Keys
+Security
+Search
+Global search should locate:
+Conversations
+Customers
+Tickets
+Knowledge Articles
+Agents
+Automation Runs
+Settings
+Search should be instant.
+Notifications
+Admin receives notifications for:
+Automation Failures
+OpenAI Errors
+Knowledge Sync Complete
+16
+
+
+--- PAGE 17 ---
+New Escalations
+Customer Complaints
+High Ticket Volume
+System Updates
+Demo Personalization for PicX Studio
+To make the dashboard feel like an internal operational tool built specifically for PicX Studio:
+Use the PicX Studio logo and branding.
+Populate demo conversations such as:
+• "My credits disappeared."
+• "Why did my image generation fail?"
+• "How do I upgrade my subscription?"
+• "Can I use generated images commercially?"
+Show realistic support categories:
+• Image Generation
+• Credits
+• Billing
+• API
+• Prompt Assistance
+• Account Access
+Display sample analytics based on these categories, with all metrics clearly marked as Demo Data.
+The dashboard should create the impression that the platform has already been running inside PicX
+Studio for several weeks.
+Future Dashboard Features
+Future releases should include:
+• AI Quality Scoring
+• Conversation Replay
+• Agent Coaching
+• Automatic Knowledge Suggestions
+• Voice Support Analytics
+• Predictive Ticket Forecasting
+• SLA Monitoring
+• Revenue Attribution
+17
+
+
+--- PAGE 18 ---
+• Churn Risk Detection
+• Customer Lifetime Timeline
+Success Criteria
+A founder should be able to open the dashboard and understand the health of their entire support
+operation in less than 30 seconds.
+A support manager should be able to identify the biggest operational bottleneck in under one minute.
+For the PicX Studio demo, the dashboard should leave the viewer thinking:
+"This looks like something our team could actually use tomorrow."
+The interface should feel polished, operational, and purpose-built—not like a prototype or a generic
+admin panel with placeholder charts. Every section should reinforce the idea that SupportFlow AI is an
+intelligent support operating system rather than just another chatbot.
+18

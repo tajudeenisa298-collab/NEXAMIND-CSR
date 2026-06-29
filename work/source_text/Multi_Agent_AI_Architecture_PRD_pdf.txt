@@ -1,0 +1,456 @@
+
+
+--- PAGE 1 ---
+12_MULTI_AGENT_AI_ARCHITECTURE.md
+Multi-Agent AI Architecture PRD
+Overview
+Most AI support products rely on a single LLM prompt to answer customer questions.
+SupportFlow AI takes a fundamentally different approach.
+Instead of one AI trying to do everything, SupportFlow AI is built as a team of specialized AI agents,
+each responsible for a single task.
+This architecture improves:
+• Accuracy
+• Speed
+• Explainability
+• Maintainability
+• Extensibility
+The system behaves less like a chatbot and more like an experienced support department where each
+specialist contributes to solving the customer's problem.
+Philosophy
+Rather than asking one AI:
+"Figure everything out."
+SupportFlow AI asks multiple specialized agents to work together.
+Think of it like a hospital.
+Receptionist
+↓
+Nurse
+↓
+Doctor
+↓
+1
+
+
+--- PAGE 2 ---
+Specialist
+↓
+Pharmacist
+Each role is optimized for one responsibility.
+Master Architecture
+Customer Message
+│
+▼
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ORCHESTRATOR AGENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+│
+├──────────────┐
+▼ ▼
+Intent Agent Sentiment Agent
+│ │
+└──────┬───────┘
+▼
+Context Agent
+│
+▼
+Retrieval Agent
+│
+▼
+Reasoning Agent
+│
+┌─────────┴─────────┐
+▼ ▼
+Action Agent Escalation Agent
+│ │
+▼ ▼
+Automation Human Support
+│
+▼
+Response Agent
+│
+▼
+Customer
+2
+
+
+--- PAGE 3 ---
+Master Orchestrator
+Purpose
+Controls every AI interaction.
+It never answers customers directly.
+Instead it coordinates all specialist agents.
+Responsibilities
+• Receive message
+• Maintain workflow state
+• Assign tasks
+• Combine outputs
+• Produce final response
+Agent 1 — Intent Detection Agent
+Purpose
+Determine what the customer wants.
+Input
+Customer message.
+Output
+{
+"intent":"Billing",
+"confidence":0.97,
+"secondary_intent":"Credits"
+}
+Responsibilities
+Detect
+• Billing
+• Refund
+• Credits
+• Login
+• API
+3
+
+
+--- PAGE 4 ---
+• Feature Request
+• Bug
+• Enterprise
+• Sales
+• Security
+Agent 2 — Sentiment Agent
+Purpose
+Determine customer emotion.
+Output
+{
+"emotion":"Frustrated",
+"severity":"High",
+"escalation_score":87
+}
+Possible emotions
+Neutral
+Happy
+Confused
+Frustrated
+Angry
+Urgent
+VIP Concern
+Agent 3 — Context Agent
+Purpose
+Retrieve customer context.
+Loads
+4
+
+
+--- PAGE 5 ---
+Conversation history
+Subscription
+Past tickets
+Previous summaries
+Current workflows
+Recent purchases
+Organization metadata
+Example Output
+{
+"plan":"Enterprise",
+"previous_refunds":1,
+"tickets":14,
+"last_issue":"Rendering Timeout"
+}
+Agent 4 — Retrieval Agent
+Purpose
+Search company knowledge.
+Responsibilities
+Semantic search
+Hybrid search
+Re-ranking
+Citation collection
+Returns
+Top knowledge chunks
+Confidence score
+Sources
+5
+
+
+--- PAGE 6 ---
+Agent 5 — Reasoning Agent
+Purpose
+Acts as the "support engineer."
+Inputs
+Intent
+Context
+Knowledge
+Sentiment
+Outputs
+Diagnosis
+Recommended solution
+Need clarification?
+Need automation?
+Need escalation?
+Agent 6 — Safety Agent
+Purpose
+Protect against hallucinations.
+Checks
+Unsupported claims
+Policy violations
+Prompt injection
+Data leakage
+Unsafe instructions
+6
+
+
+--- PAGE 7 ---
+Missing citations
+If validation fails
+Return
+Escalate.
+Agent 7 — Action Agent
+Purpose
+Determine operational actions.
+Possible outputs
+Create ticket
+Trigger workflow
+Verify customer
+Send email
+Notify Slack
+Schedule callback
+Collect files
+Update CRM
+Agent 8 — Escalation Agent
+Purpose
+Determine if AI should hand off.
+Scoring Factors
+Low confidence
+Negative sentiment
+Repeated failures
+7
+
+
+--- PAGE 8 ---
+Enterprise customer
+Refund request
+Security
+Bug
+Legal
+VIP
+Outputs
+Escalation level
+Assigned department
+Priority
+Summary
+Agent 9 — Response Agent
+Purpose
+Generate the final response.
+Uses
+Conversation
+Knowledge
+Actions
+Safety
+Company tone
+Formatting
+Produces
+Human-like answer.
+8
+
+
+--- PAGE 9 ---
+Agent 10 — Memory Agent
+Purpose
+Continuously summarize conversations.
+Instead of sending
+100 messages
+↓
+Send
+One intelligent summary.
+Example
+Summary
+Enterprise customer.
+Uses API.
+Billing issue resolved.
+Currently troubleshooting rendering.
+Agent Communication
+Agents communicate through structured JSON.
+Never raw text.
+Example
+Intent Agent
+↓
+{
+"intent":"Refund",
+"confidence":95
+}
+9
+
+
+--- PAGE 10 ---
+↓
+Reasoning Agent
+↓
+{
+"needs_refund_workflow":true
+}
+↓
+Action Agent
+↓
+Trigger workflow.
+Agent Execution Modes
+Fast Mode
+Only
+Intent
+Retrieval
+Response
+Used for:
+Simple FAQ.
+Standard Mode
+Intent
+Context
+Retrieval
+Reasoning
+Response
+10
+
+
+--- PAGE 11 ---
+Most conversations.
+Deep Analysis Mode
+Every agent.
+Including
+Safety
+Memory
+Escalation
+Used for
+Enterprise
+Security
+Billing
+Complex bugs
+Confidence Voting
+Multiple agents vote.
+Example
+Intent Agent
+Billing
+97%
+Reasoning Agent
+Billing
+95%
+Action Agent
+Refund
+11
+
+
+--- PAGE 12 ---
+91%
+Consensus
+Billing
+↓
+Refund Workflow
+Failure Recovery
+If one agent fails
+Retry.
+If repeated failure
+Fallback.
+If critical
+Escalate.
+System should never completely fail because one specialist fails.
+Explainability
+Every decision stores reasoning.
+Example
+Escalated because
+Confidence
+61%
+Customer sentiment
+Negative
+Repeated issue
+Third contact
+12
+
+
+--- PAGE 13 ---
+Enterprise customer
+Support managers can inspect every AI decision.
+Prompt Management
+Each agent has its own system prompt.
+Example
+Intent Agent
+"You only classify customer intent."
+Reasoning Agent
+"You act as a senior support engineer."
+Safety Agent
+"You verify factual correctness."
+This keeps prompts smaller and more reliable.
+PicX Studio Demonstration
+For the Loom, expose the orchestration visually.
+After the customer sends:
+"My credits disappeared after I upgraded."
+Show a developer/debug panel (or a simplified "AI Thinking" panel) demonstrating the internal pipeline:
+✓ Intent Agent
+Detected:
+Billing + Credits
+✓ Sentiment Agent
+Neutral
+✓ Context Agent
+Pro Plan
+Upgrade yesterday
+13
+
+
+--- PAGE 14 ---
+✓ Retrieval Agent
+Found:
+Credits Policy
+Billing FAQ
+✓ Reasoning Agent
+Possible billing synchronization delay
+✓ Action Agent
+Verify purchase workflow
+✓ Response Agent
+Prepared customer response
+This is not something the customer would normally see in production, but it's an excellent
+demonstration feature because it shows that the system isn't simply calling ChatGPT—it is orchestrating
+specialized AI services.
+Future Specialized Agents
+Future releases can introduce additional domain-specific agents:
+Engineering Agent
+Understands logs
+Analyzes stack traces
+Reads crash reports
+Sales Agent
+Handles enterprise leads
+Schedules demos
+Qualifies prospects
+Customer Success Agent
+Monitors churn
+Suggests outreach
+Tracks onboarding
+14
+
+
+--- PAGE 15 ---
+Documentation Agent
+Writes FAQs
+Updates articles
+Improves knowledge quality
+Analytics Agent
+Predicts ticket volume
+Identifies trends
+Forecasts staffing
+QA Agent
+Reviews AI conversations
+Scores quality
+Detects hallucinations
+Suggests improvements
+Why This Architecture Matters
+Most AI support products are wrappers around a single prompt.
+SupportFlow AI should feel fundamentally different.
+Its intelligence comes from collaboration between specialized AI agents, not a single monolithic
+model.
+This architecture makes the platform:
+• Easier to improve
+• Easier to debug
+• More reliable
+• More accurate
+• Better suited for enterprise environments
+15
+
+
+--- PAGE 16 ---
+Success Criteria
+During the PicX Studio demo, the audience should realize that every customer message is processed
+through a sophisticated decision-making pipeline rather than a generic chatbot.
+The ideal reaction is:
+"This feels like an actual AI support department with specialized experts working
+together behind the scenes—not just another GPT-powered chat widget."
+This perception creates a strong technical differentiator while remaining grounded in an architecture
+that can be implemented incrementally as the product evolves.
+16

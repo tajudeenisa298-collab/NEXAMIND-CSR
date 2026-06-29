@@ -1,0 +1,429 @@
+
+
+--- PAGE 1 ---
+10_AGENT_WORKSPACE.md
+Support Agent Workspace PRD
+Overview
+The Agent Workspace is where human support representatives take over conversations that require
+human judgment.
+Unlike traditional helpdesk software, SupportFlow AI is designed so that agents never start from zero.
+By the time a conversation reaches an agent:
+• The AI has already understood the issue.
+• Gathered customer information.
+• Retrieved documentation.
+• Attempted troubleshooting.
+• Summarized the conversation.
+• Suggested the next best action.
+The agent's role shifts from information gathering to problem solving.
+Vision
+The Agent Workspace should feel like Iron Man's Jarvis.
+Instead of searching through conversations, documentation, customer records, and notes, everything
+the agent needs should already be prepared.
+The platform should dramatically reduce cognitive load.
+Design Philosophy
+The interface should answer one question:
+"What does the agent need to solve this issue in under two minutes?"
+Everything else is secondary.
+1
+
+
+--- PAGE 2 ---
+Layout Overview
+------------------------------------------------------------
+Sidebar
+Conversation List
+------------------------------------------------------------
+Customer Chat
+------------------------------------------------------------
+AI Assistant Panel
+------------------------------------------------------------
+Customer Profile
+------------------------------------------------------------
+Three Panel Layout
+Left Panel
+Conversation Queue
+Center
+Conversation Timeline
+Right
+AI Copilot
+Customer Details
+Knowledge
+Suggested Actions
+2
+
+
+--- PAGE 3 ---
+Conversation Queue
+Displays
+Customer Name
+Priority
+Current Intent
+Status
+Waiting Time
+Assigned Agent
+Unread Count
+Last Activity
+Example
+🔴 John Smith
+Billing Issue
+Waiting 3 min
+AI Summary Ready
+Filters
+Agents can filter by
+Priority
+Intent
+Assigned
+Unassigned
+Escalated
+Waiting
+3
+
+
+--- PAGE 4 ---
+Resolved
+Channel
+Date
+Search
+Queue Sorting
+Default priority
+Critical
+↓
+High
+↓
+Medium
+↓
+Low
+↓
+Oldest
+Conversation Header
+Shows
+Customer Name
+Email
+Plan
+Current Status
+Conversation Duration
+Assigned Agent
+4
+
+
+--- PAGE 5 ---
+Priority
+AI Confidence
+Example
+John Smith
+Enterprise
+Billing
+High Priority
+AI Confidence
+96%
+Conversation Timeline
+Displays
+Customer Messages
+AI Responses
+Automation Events
+Agent Messages
+Internal Notes
+System Events
+Everything appears chronologically.
+Timeline Events
+Examples
+Customer uploaded screenshot
+↓
+5
+
+
+--- PAGE 6 ---
+AI searched documentation
+↓
+Knowledge article retrieved
+↓
+Workflow triggered
+↓
+Support ticket created
+↓
+Agent joined
+AI Conversation Summary
+One of the most valuable features.
+Every escalation automatically includes:
+Issue
+Customer Goal
+What AI Tried
+Knowledge Used
+Current Status
+Suggested Resolution
+Estimated Cause
+Example
+Issue
+Credits missing after payment.
+Already Verified
+6
+
+
+--- PAGE 7 ---
+✓ Payment successful
+✓ Account exists
+✓ Browser cache cleared
+Likely Cause
+Billing sync delay.
+Recommended Action
+Manual credit refresh.
+An agent should understand the issue in under 15 seconds.
+AI Suggested Reply
+The AI should draft a response before the agent types.
+Example
+Hi John,
+I've reviewed your account and confirmed that your payment was processed successfully.
+It appears your credits haven't synchronized yet.
+I'll manually refresh them for you now.
+Agent may
+Edit
+Approve
+Regenerate
+Reject
+7
+
+
+--- PAGE 8 ---
+Customer Profile
+Displays
+Avatar
+Email
+Plan
+Company
+Country
+Timezone
+Customer Since
+Support Score
+Lifetime Tickets
+CSAT
+Subscription Information
+Display
+Current Plan
+Renewal Date
+Credits Remaining
+Usage
+Billing History
+Enterprise Status
+Previous Conversations
+Timeline
+8
+
+
+--- PAGE 9 ---
+Conversation History
+Resolved Issues
+Open Issues
+Previous Escalations
+Repeated Problems
+Attachments
+Panel showing
+Screenshots
+Invoices
+Videos
+Logs
+PDF
+Reference Images
+Searchable.
+Knowledge Panel
+Shows documentation related to the current issue.
+Example
+Current Intent
+Credits
+Suggested Articles
+Credits FAQ
+Billing Guide
+Refund Policy
+9
+
+
+--- PAGE 10 ---
+Known Issues
+The agent never searches manually.
+AI Copilot
+Always available.
+Agents can ask
+"Summarize this conversation."
+"What should I do?"
+"Draft a reply."
+"Find documentation."
+"Explain the error."
+"Search previous tickets."
+The Copilot behaves like ChatGPT trained on company knowledge.
+Suggested Actions
+Buttons
+Refresh Credits
+Create Refund Request
+Assign Engineering
+Create Bug
+Notify Customer
+Close Conversation
+Escalate
+Merge Ticket
+10
+
+
+--- PAGE 11 ---
+Internal Notes
+Agents can leave notes.
+Invisible to customers.
+Example
+Customer affected by known billing bug.
+Engineering ticket
+BUG-142
+Follow up tomorrow.
+Collaboration
+Support agents can
+Mention teammates
+Assign tickets
+Transfer conversations
+Share notes
+Request engineering review
+Agent Presence
+Shows
+Available
+Busy
+Away
+Offline
+11
+
+
+--- PAGE 12 ---
+Keyboard Shortcuts
+Cmd + K
+Search
+R
+Reply
+E
+Escalate
+A
+Assign
+/
+AI Copilot
+Notifications
+Real-time notifications
+New Escalation
+Customer Replied
+Workflow Failed
+Mention
+Assignment
+Urgent Ticket
+Conversation Resolution
+When resolved
+Agent chooses
+12
+
+
+--- PAGE 13 ---
+Resolved
+Closed
+Waiting Customer
+Engineering
+Billing
+Other
+Customer automatically receives confirmation.
+Customer Satisfaction Prompt
+After resolution
+Ask
+Was your issue resolved?
+👍
+👎
+Optional comments.
+Analytics for Agents
+Each agent sees
+Average Response Time
+Resolution Time
+Customer Satisfaction
+Tickets Closed
+AI Assist Usage
+Escalation Rate
+13
+
+
+--- PAGE 14 ---
+AI Assist Metrics
+Display
+AI Suggestions Accepted
+AI Suggestions Edited
+Time Saved
+Average Resolution Improvement
+Engineering Escalations
+Agent can escalate to engineering.
+Automatically includes
+Conversation
+Logs
+Browser
+OS
+Screenshots
+Summary
+Priority
+Engineering receives a complete report.
+PicX Studio Personalization
+For the demo
+Use
+PicX branding
+PicX terminology
+14
+
+
+--- PAGE 15 ---
+PicX documentation
+Sample conversations
+Examples
+"My image generation stopped at 87%."
+"My credits disappeared."
+"My upscale failed."
+"My API request returns 429."
+"My prompt gives different results."
+Every conversation should feel authentic.
+Demo Conversation
+Customer
+"My image failed."
+↓
+AI attempts solution.
+↓
+Customer
+"Still broken."
+↓
+AI summarizes.
+↓
+Agent joins.
+↓
+Agent immediately sees
+Summary
+15
+
+
+--- PAGE 16 ---
+Documentation
+Suggested Fix
+Customer History
+↓
+Agent replies within seconds.
+This demonstrates the biggest value proposition:
+Human agents become dramatically more effective because the AI has already completed the
+investigative work.
+Future Features
+Voice takeover
+Screen sharing
+Remote assistance
+Conversation replay
+AI coaching
+Sentiment timeline
+Automatic QA scoring
+Performance coaching
+Auto-generated macros
+Conversation translation
+Success Criteria
+An experienced support agent should be able to understand a new escalation in under 15 seconds,
+respond in under one minute, and resolve common issues significantly faster because the AI has
+already completed the repetitive investigative work.
+For the PicX Studio demo, the workspace should make Caitlin think:
+16
+
+
+--- PAGE 17 ---
+"Our support team would actually enjoy using this. It doesn't replace them—it
+makes them much more effective."
+That feeling is critical because it positions SupportFlow AI as a tool that empowers support teams rather
+than threatening to replace them, making adoption much more attractive.
+17

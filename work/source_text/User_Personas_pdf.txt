@@ -1,0 +1,332 @@
+
+
+--- PAGE 1 ---
+02_USER_PERSONAS.md
+User Personas
+SupportFlow AI serves multiple users within a SaaS company. While the end customer interacts with the
+AI assistant, internal teams rely on the platform for visibility, automation, and operational efficiency.
+This document defines every primary user type, their goals, frustrations, permissions, and expected
+interactions with the platform.
+Persona 1 — End Customer
+Description
+The end customer is any user of the SaaS product seeking assistance.
+They are not interested in AI technology—they simply want their issue resolved as quickly as possible.
+This is the most important persona in the platform.
+Goals
+The customer wants to:
+• Solve their issue immediately.
+• Avoid waiting hours for a response.
+• Speak naturally.
+• Avoid reading long documentation.
+• Receive clear next steps.
+• Know when their issue will be resolved.
+Common Problems
+Examples include:
+• Login issues
+• Billing confusion
+• Subscription upgrades
+• Refund requests
+• Feature questions
+• AI generation failures
+• Credit usage
+1
+
+
+--- PAGE 2 ---
+• API setup
+• Performance issues
+• Missing assets
+• Account verification
+Pain Points
+Current support experiences often involve:
+• Long wait times
+• Repeating the same information
+• Generic chatbot responses
+• Searching documentation manually
+• Waiting for human agents
+SupportFlow AI should eliminate these frustrations.
+Customer Expectations
+The customer expects:
+✓ Immediate acknowledgement
+✓ Helpful answers
+✓ Natural conversation
+✓ Accurate information
+✓ Clear explanations
+✓ Human escalation when necessary
+Customer Journey
+Customer enters support.
+↓
+Describes issue naturally.
+2
+
+
+--- PAGE 3 ---
+↓
+AI understands intent.
+↓
+AI searches knowledge.
+↓
+Customer receives answer.
+↓
+If solved
+Conversation ends.
+↓
+If not solved
+AI escalates automatically.
+Persona 2 — Customer Support Agent
+Description
+Support agents handle conversations that require human judgment.
+SupportFlow AI should reduce—not replace—their workload.
+Goals
+Support agents want:
+• Fewer repetitive tickets.
+• Better ticket context.
+• Faster resolutions.
+• Less manual work.
+• Better visibility.
+3
+
+
+--- PAGE 4 ---
+Current Problems
+Support agents repeatedly answer:
+• Password resets
+• Billing questions
+• Refund policy
+• Credit usage
+• Subscription plans
+• Login issues
+These consume valuable time.
+Desired Experience
+When an escalation occurs:
+The agent should instantly receive:
+Customer information
+Conversation history
+AI summary
+Knowledge articles already shown
+Suggested resolution
+Relevant account information
+The customer should never need to repeat themselves.
+Agent Dashboard
+Support agents can:
+View active conversations
+Review escalations
+Reply manually
+Take over conversations
+View customer history
+4
+
+
+--- PAGE 5 ---
+Assign tickets
+Resolve tickets
+Leave internal notes
+Agent Permissions
+Allowed:
+View conversations
+Reply
+Escalate internally
+Resolve tickets
+View analytics
+Cannot:
+Delete company settings
+Manage billing
+Modify AI configuration
+Persona 3 — Support Manager
+Description
+Responsible for managing support operations.
+Focused on performance rather than individual conversations.
+Goals
+Reduce support costs.
+Improve response time.
+Increase CSAT.
+5
+
+
+--- PAGE 6 ---
+Measure automation success.
+Monitor team workload.
+Dashboard Needs
+Managers need to know:
+Tickets today
+AI resolution rate
+Escalation rate
+Average response time
+Average resolution time
+Most common issues
+Knowledge gaps
+Agent performance
+Customer satisfaction
+Decisions They Make
+Should we hire more agents?
+Should documentation improve?
+Which issues occur most?
+Which workflows should be automated?
+Where is AI failing?
+Persona 4 — Founder / CEO
+Description
+The executive decision-maker.
+6
+
+
+--- PAGE 7 ---
+Primary concern:
+Business efficiency.
+Goals
+Reduce costs.
+Scale support.
+Improve customer experience.
+Avoid increasing payroll.
+Understand ROI.
+Metrics They Care About
+Monthly ticket volume
+Automation rate
+Money saved
+Agent utilization
+Customer retention
+First response time
+Support costs
+Customer satisfaction
+Executive Dashboard
+Shows:
+Support health
+AI performance
+Savings estimate
+Growth trends
+7
+
+
+--- PAGE 8 ---
+Operational bottlenecks
+Monthly summaries
+Persona 5 — Operations Manager
+Description
+Owns internal workflows.
+Responsible for making sure automation works reliably.
+Goals
+Reduce manual processes.
+Increase operational efficiency.
+Ensure escalations work correctly.
+Monitor integrations.
+Responsibilities
+Configure automations
+Review failures
+Maintain workflows
+Connect APIs
+Manage notification channels
+Persona 6 — Knowledge Base Manager
+Description
+Responsible for documentation quality.
+8
+
+
+--- PAGE 9 ---
+Goals
+Ensure AI has accurate information.
+Update articles.
+Remove outdated content.
+Improve retrieval quality.
+Responsibilities
+Upload documentation.
+Approve content.
+Review missing answers.
+Create FAQs.
+Organize documentation.
+Persona 7 — System Administrator
+Description
+Technical owner.
+Maintains platform configuration.
+Responsibilities
+Manage integrations
+Configure OpenAI
+Manage authentication
+API keys
+Permissions
+Billing
+9
+
+
+--- PAGE 10 ---
+Workspace management
+PicX Studio Persona Mapping
+Customer Types
+Professional designers
+AI artists
+Marketing teams
+Content creators
+Developers
+Agency owners
+Enterprise users
+Most Common Support Questions
+Billing
+Subscription upgrades
+Credit balance
+Image generation
+Rendering delays
+Commercial licensing
+Prompt guidance
+API documentation
+Password resets
+Account verification
+10
+
+
+--- PAGE 11 ---
+Support Team Goals
+Reduce repetitive conversations.
+Provide immediate answers.
+Improve user experience.
+Handle growth without increasing support staff.
+Permissions Matrix
+Feature Customer Agent Manager Admin
+Chat with AI ✅ ❌ ❌ ❌
+View Own Conversation ✅ ✅ ✅ ✅
+Reply to Tickets ❌ ✅ ✅ ✅
+Human Takeover ❌ ✅ ✅ ✅
+View Analytics ❌ ❌ ✅ ✅
+Configure AI ❌ ❌ ❌ ✅
+Upload Documentation ❌ ❌ ✅ ✅
+Manage Integrations ❌ ❌ ❌ ✅
+Billing Settings ❌ ❌ ❌ ✅
+Experience Principles by Persona
+Customer
+"I got my answer immediately."
+Support Agent
+"I only receive tickets that actually require me."
+Manager
+"I finally know where our support team spends time."
+11
+
+
+--- PAGE 12 ---
+Founder
+"We're scaling support without scaling payroll."
+Administrator
+"The platform runs reliably with minimal maintenance."
+MVP Priority Personas
+For the first release, the highest priority personas are:
+Priority 1
+End Customer
+Every interaction should feel effortless, accurate, and helpful.
+Priority 2
+Support Agent
+Escalations should arrive with complete context and require minimal additional investigation.
+Priority 3
+Founder / CEO
+The product must clearly demonstrate operational value through analytics, automation rates, and
+estimated cost savings.
+Success Criteria
+If the MVP is successful:
+• Customers receive instant, trustworthy answers.
+• Support agents spend most of their time on complex, high-value conversations.
+• Managers can identify support trends and knowledge gaps.
+• Founders see measurable reductions in repetitive support work and understand the business
+impact of deploying SupportFlow AI.
+12
+
+
+--- PAGE 13 ---
+For the PicX Studio demo specifically, every interaction should reinforce the feeling that the assistant
+understands their users, their terminology, and their product—not that it's a generic chatbot with a
+new logo.
+13

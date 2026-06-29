@@ -1,0 +1,280 @@
+
+
+--- PAGE 1 ---
+01_PRODUCT_VISION.md
+Product Vision
+SupportFlow AI is not a chatbot.
+It is an AI Support Engineer.
+Instead of simply answering questions, SupportFlow AI understands the customer's intent, retrieves
+accurate information from the company's knowledge base, performs actions when appropriate, and
+intelligently decides when a human should become involved.
+The product is designed to become the first line of customer support for modern SaaS companies.
+Vision Statement
+Every software company should be able to provide world-class customer support without
+hiring an unlimited number of support agents.
+SupportFlow AI exists to eliminate repetitive support work while allowing human teams to focus on
+conversations that genuinely require empathy, investigation, and decision-making.
+Product Philosophy
+Customer support should never feel like talking to a bot.
+Every interaction should feel like a knowledgeable support specialist who:
+• understands the customer's issue
+• knows the product deeply
+• answers quickly
+• remembers previous messages
+• knows when not to guess
+• escalates when appropriate
+The platform should prioritize accuracy over speed and trust over automation.
+If the AI is uncertain, it should acknowledge that uncertainty and hand the conversation to a human
+rather than invent an answer.
+1
+
+
+--- PAGE 2 ---
+Primary Objective
+Reduce repetitive customer support workload while improving the overall customer experience.
+The AI should become responsible for handling the repetitive 60–80% of incoming tickets, allowing the
+support team to spend their time on complex customer issues.
+Product Objectives
+Objective 1
+Instant responses.
+Customers should never wait hours to receive answers to simple questions.
+Target response time:
+Less than 5 seconds.
+Objective 2
+Accurate information.
+Every response should come from the company's own documentation, help center, FAQs, policies, or
+configured workflows.
+The AI must avoid hallucinating product information.
+Objective 3
+Human-quality conversations.
+The customer should not immediately recognize they are speaking with AI.
+Responses should feel conversational, friendly, and confident.
+Never robotic.
+Objective 4
+Reduce repetitive workload.
+2
+
+
+--- PAGE 3 ---
+SupportFlow AI should automate conversations related to:
+• Billing
+• Credits
+• Refunds
+• Login
+• Password reset
+• API questions
+• Feature explanations
+• Subscription management
+• General FAQs
+• Troubleshooting
+• Status inquiries
+Objective 5
+Intelligent escalation.
+Not every problem should be solved by AI.
+The platform should recognize when:
+• confidence is low
+• customer frustration is increasing
+• account-specific investigation is required
+• policy decisions must be made
+• billing exceptions occur
+• bugs require engineering
+Those conversations should immediately transition to human support.
+Product Personality
+SupportFlow AI should always sound:
+Professional
+Friendly
+Patient
+Helpful
+Confident
+Calm
+3
+
+
+--- PAGE 4 ---
+Honest
+Never arrogant.
+Never overly formal.
+Never excessively casual.
+Never repetitive.
+Design Principles
+1. Simplicity
+Users should understand the interface immediately.
+No unnecessary settings.
+No technical jargon.
+Everything should feel obvious.
+2. Speed
+Every action should feel instant.
+Loading indicators should appear immediately.
+Streaming responses should begin within one second whenever possible.
+3. Transparency
+Customers should know when:
+• AI is answering
+• a human has joined
+• information is being searched
+• escalation is happening
+The system should never pretend to be human.
+4
+
+
+--- PAGE 5 ---
+4. Confidence
+When the AI knows the answer:
+Answer confidently.
+When uncertain:
+Explain uncertainty.
+Escalate.
+Never fabricate information.
+5. Context Awareness
+The assistant should remember:
+Current conversation
+Previous messages
+Customer name
+Subscription plan
+Account status (when integrated)
+Previous support interactions
+Relevant documentation already shown
+The customer should never need to repeat themselves.
+Customer Journey
+Step 1
+Customer opens support.
+Instead of a contact form:
+SupportFlow welcomes them.
+Example:
+5
+
+
+--- PAGE 6 ---
+"Hi! I'm here to help. What can I assist you with today?"
+Step 2
+Customer describes the issue.
+Example:
+"My image generation keeps failing."
+The AI identifies:
+Intent:
+Generation Failure
+Confidence:
+97%
+Step 3
+Retrieve Knowledge
+The AI searches:
+Documentation
+FAQ
+Known Issues
+Release Notes
+Troubleshooting Articles
+Internal Support Notes (optional)
+Step 4
+Generate Response
+The AI explains:
+Possible causes
+6
+
+
+--- PAGE 7 ---
+Suggested fixes
+Links to documentation
+Next steps
+Step 5
+Determine Outcome
+If solved:
+Conversation closes.
+If unresolved:
+Collect additional information.
+Step 6
+Escalate
+When escalation is needed:
+Collect:
+• email
+• account ID
+• screenshots
+• project ID
+• browser
+• operating system
+Then create a support ticket automatically.
+Product Experience
+SupportFlow should feel like:
+ChatGPT
++
+Intercom
+7
+
+
+--- PAGE 8 ---
++
+Zendesk
++
+Linear
+combined into one seamless experience.
+PicX Studio Demonstration
+The demonstration should convince PicX that this system understands their product, not generic SaaS
+support.
+The assistant should answer questions such as:
+Billing
+"Can I upgrade my subscription?"
+"What happens if I downgrade?"
+"Where can I find my invoices?"
+"I was charged twice."
+Credits
+"How many credits do I get?"
+"Why did my credits disappear?"
+"When do credits reset?"
+"Can I buy additional credits?"
+AI Generation
+"My image failed."
+"Why is rendering taking so long?"
+8
+
+
+--- PAGE 9 ---
+"My prompt isn't producing the expected result."
+"The generated image has artifacts."
+"Can I upscale this image?"
+Account
+"I forgot my password."
+"I can't verify my email."
+"My account is locked."
+"I accidentally created two accounts."
+API
+"How do I get my API key?"
+"What's the rate limit?"
+"Where is the documentation?"
+Licensing
+"Can I use generated images commercially?"
+"Who owns the copyright?"
+"Can I sell images generated with PicX?"
+Refunds
+"Can I receive a refund?"
+"My payment failed."
+"I cancelled but was charged."
+9
+
+
+--- PAGE 10 ---
+Success Criteria
+The PicX demo should leave the viewer believing:
+"This already understands our product."
+It should feel like:
+• The AI knows PicX's documentation.
+• It speaks their terminology.
+• It understands their customer issues.
+• It can resolve common tickets immediately.
+• It knows when to involve the support team.
+The objective is not to impress with AI technology, but to demonstrate a practical reduction in support
+workload while maintaining a high-quality customer experience.
+Long-Term Product Vision
+SupportFlow AI eventually becomes a complete Customer Operations Platform.
+Beyond support, future capabilities include:
+• AI onboarding assistants
+• Customer success agents
+• Renewal reminders
+• Churn prevention
+• Product recommendation agents
+• Sales assistants
+• Internal company knowledge search
+• Engineering incident assistants
+• Team documentation assistant
+• Multi-channel messaging (email, Discord, Slack, in-app, social)
+The long-term ambition is to become the intelligent operational layer between every SaaS business and
+its customers, handling routine interactions autonomously while empowering human teams to focus on
+work that requires judgment, creativity, and empathy.
+10

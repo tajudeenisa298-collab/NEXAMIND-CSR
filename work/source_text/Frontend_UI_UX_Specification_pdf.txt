@@ -1,0 +1,507 @@
+
+
+--- PAGE 1 ---
+14_FRONTEND_UI_UX_SPECIFICATION.md
+Frontend UI/UX Specification
+Version: MVP 1.0
+Design Philosophy: The best support software should disappear.
+Users should focus on solving problems—not learning software.
+Design Vision
+SupportFlow AI should feel like the intersection of:
+• Linear
+• Vercel
+• Stripe
+• Notion
+• ChatGPT
+• Raycast
+Every screen should communicate:
+Modern
+Intelligent
+Fast
+Premium
+Design Principles
+Principle 1
+Clarity over Complexity.
+One primary action per screen.
+Never overwhelm users.
+1
+
+
+--- PAGE 2 ---
+Principle 2
+Information Hierarchy
+Large information first.
+Details later.
+Every screen should answer:
+"What matters right now?"
+Principle 3
+Zero Learning Curve
+Every button should be obvious.
+Every action predictable.
+Principle 4
+Motion With Purpose
+Animations should explain.
+Never decorate.
+Examples
+Good
+Card expands
+Sidebar slides
+Typing animation
+Progress indicators
+Bad
+Floating icons
+Random fades
+2
+
+
+--- PAGE 3 ---
+Decorative effects
+Design System
+Border Radius
+12px
+Button Radius
+10px
+Card Radius
+16px
+Shadows
+Very subtle.
+No heavy shadows.
+Premium SaaS aesthetic.
+Spacing System
+4
+8
+12
+16
+20
+24
+32
+40
+3
+
+
+--- PAGE 4 ---
+48
+64
+Never random spacing.
+Typography
+Primary
+Inter
+Fallback
+System Sans
+Headings
+Bold
+Large
+Clean
+Body
+Regular
+Comfortable reading width
+Maximum
+80 characters per line
+Color System
+Since the demo is for PicX Studio,
+the application should inherit:
+Primary Color
+PicX Brand
+4
+
+
+--- PAGE 5 ---
+Secondary
+Neutral Gray
+Success
+Green
+Warning
+Amber
+Danger
+Red
+Information
+Blue
+Layout Grid
+Desktop
+-----------------------------------------------------
+Sidebar
+|
+Content
+|
+Context Panel
+-----------------------------------------------------
+Tablet
+Sidebar collapses.
+Context becomes drawer.
+5
+
+
+--- PAGE 6 ---
+Mobile
+Everything becomes stacked.
+Bottom navigation.
+Global Navigation
+Permanent sidebar.
+Sections
+Dashboard
+Inbox
+Customers
+Knowledge
+Automation
+Analytics
+Settings
+Profile
+Icons
+Minimal
+Outlined
+Consistent size
+Header
+Contains
+Breadcrumb
+Search
+6
+
+
+--- PAGE 7 ---
+Notifications
+Workspace Switcher
+Profile
+Search
+Global
+Cmd + K
+Cards
+Cards are the primary information container.
+Every card contains
+Title
+Description
+Primary Data
+Optional Action
+Example
+AI Resolution
+84%
++6%
+Compared to last week.
+Buttons
+Primary
+Solid
+Secondary
+7
+
+
+--- PAGE 8 ---
+Outline
+Ghost
+Minimal
+Danger
+Red
+Loading
+Animated
+Disabled
+Accessible
+Empty States
+Every empty state teaches.
+Example
+No conversations yet.
+Start by opening the support widget.
+Never
+"No data."
+Loading States
+Skeleton loading.
+Never blank screens.
+Examples
+Conversation
+Knowledge
+Dashboard
+8
+
+
+--- PAGE 9 ---
+Analytics
+Customer Profile
+Error States
+Friendly.
+Example
+"We couldn't load this conversation.
+Try again."
+Never
+500
+Stack trace
+Technical errors
+Chat UI
+Chat bubbles
+Rounded
+Comfortable spacing
+Streaming animation
+Typing indicator
+Markdown
+Code blocks
+Tables
+Images
+Attachments
+Everything responsive.
+9
+
+
+--- PAGE 10 ---
+AI Messages
+Different appearance.
+Subtle gradient.
+AI icon.
+Never flashy.
+Human Messages
+Neutral.
+Simple.
+Readable.
+System Messages
+Small
+Muted
+Timeline style
+Example
+Ticket Created
+Workflow Started
+Agent Joined
+Conversation Closed
+Dashboard Widgets
+Every widget
+Expandable
+10
+
+
+--- PAGE 11 ---
+Refreshable
+Interactive
+Drill-down enabled
+Charts
+Use
+Line
+Area
+Bar
+Pie
+Heatmap
+Avoid
+3D charts
+Decorative charts
+Tables
+Sticky headers
+Sorting
+Filtering
+Search
+Pagination
+Bulk actions
+Resizable columns
+11
+
+
+--- PAGE 12 ---
+Forms
+Minimal fields.
+Progressive disclosure.
+Ask only what is necessary.
+Validation
+Real-time.
+Modal Windows
+Used only when necessary.
+Never interrupt workflow.
+Notifications
+Top-right.
+Small.
+Dismissible.
+Categories
+Success
+Warning
+Error
+Information
+Keyboard Shortcuts
+Cmd + K
+Search
+12
+
+
+--- PAGE 13 ---
+N
+New Ticket
+/
+Open AI Copilot
+Esc
+Close Modal
+R
+Reply
+E
+Escalate
+Accessibility
+WCAG AA
+Keyboard navigation
+Screen readers
+Focus states
+Color contrast
+Reduced motion
+High contrast
+Dark Mode
+Default
+Dark
+Secondary
+Light
+13
+
+
+--- PAGE 14 ---
+Reason
+Support agents spend hours in the application.
+Dark mode reduces fatigue.
+Responsive Breakpoints
+Mobile
+<640
+Tablet
+640–1024
+Desktop
+1024+
+Wide
+1440+
+Ultra-wide
+1920+
+Customer Widget
+Floating
+Bottom-right
+Small
+Fast
+Loads instantly.
+Admin Dashboard
+Should feel
+14
+
+
+--- PAGE 15 ---
+Executive
+Professional
+Operational
+Not technical.
+Agent Workspace
+Should feel
+Focused
+Fast
+Information-rich
+Never cluttered.
+Knowledge Base
+Feels like
+Notion
+Search first.
+Documentation second.
+Search Experience
+Global Search
+Instant
+Fuzzy
+Natural Language
+Example
+Search
+15
+
+
+--- PAGE 16 ---
+"refund"
+Returns
+Documentation
+Tickets
+Customers
+Conversations
+Workflows
+AI Copilot Panel
+Slide-out panel.
+Never blocks work.
+Sections
+Summary
+Knowledge
+Actions
+Suggestions
+History
+Insights
+Motion Design
+Animations
+150–250ms
+Fast
+Smooth
+Professional
+16
+
+
+--- PAGE 17 ---
+No bouncing.
+No playful animations.
+Sound
+Optional
+Notification
+Message
+Workflow Complete
+Never autoplay.
+Demo Mode
+Special mode for Loom.
+Adds
+Demo Banner
+Sample Data
+AI Thinking Panel
+Guided Tooltips
+Safe Reset Button
+Everything resets with one click before recording.
+Branding Layer
+Each organization can customize
+Logo
+Primary Color
+Accent Color
+17
+
+
+--- PAGE 18 ---
+Greeting
+Support Name
+Widget Title
+Typography (future)
+Custom Domain (future)
+PicX Studio Demo Theme
+The demo should immediately feel native to PicX.
+Requirements:
+• PicX logo in sidebar
+• PicX favicon
+• Brand color accents
+• Support terminology matching PicX's website
+• Product-specific icons where appropriate
+• Demo conversations referencing image generation, credits, rendering, API, and licensing
+Nothing in the interface should suggest that it is a generic white-label product.
+Delight Moments
+The UI should contain small moments that create trust.
+Examples
+✓ AI streams responses naturally.
+✓ Workflow cards animate when completed.
+✓ Agent joins conversation with smooth transition.
+✓ Knowledge articles appear instantly.
+✓ AI summary updates live.
+✓ Dashboard counters animate on load.
+These details create the perception of polish.
+18
+
+
+--- PAGE 19 ---
+Performance Targets
+Initial page load
+<2 seconds
+Conversation load
+<500ms
+Search
+<200ms
+Navigation
+Instant
+AI response begins
+<2 seconds
+Dashboard refresh
+<1 second
+Success Criteria
+The UI succeeds if users describe it as:
+"Clean."
+"Fast."
+"Simple."
+"Modern."
+"Premium."
+For the PicX Studio demo specifically, the interface should feel so cohesive and polished that Caitlin
+never questions whether this is a prototype.
+Instead, the natural reaction should be:
+"This looks like a product our team could start using today."
+19
+
+
+--- PAGE 20 ---
+The frontend should reinforce every other part of the experience by making SupportFlow AI feel
+production-ready, thoughtfully designed, and purpose-built for modern SaaS support operations.
+20
