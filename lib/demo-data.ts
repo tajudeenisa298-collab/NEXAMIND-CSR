@@ -199,7 +199,7 @@ export const demoWorkflows: WorkflowItem[] = [
   }
 ];
 
-export const navItems = [
+const allNavItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/demo-builder", label: "AI Workspace Builder", icon: Clapperboard },
   { href: "/company-brain", label: "Company Brain", icon: BrainCircuit },
@@ -215,6 +215,14 @@ export const navItems = [
   { href: "/settings", label: "Settings", icon: Settings },
   { href: "/admin", label: "Admin Panel", icon: Building2 }
 ];
+
+export const ownerNavItems = allNavItems;
+
+export const tenantNavItems = allNavItems.filter(
+  (item) => !["/admin", "/demo-builder"].includes(item.href)
+);
+
+export const navItems = tenantNavItems;
 
 export const foundationItems = [
   { label: "Next.js App", icon: Sparkles },

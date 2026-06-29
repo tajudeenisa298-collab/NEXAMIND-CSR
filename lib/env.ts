@@ -1,6 +1,10 @@
 export const appEnv = {
   appName: process.env.NEXT_PUBLIC_APP_NAME || "Nexamind",
   demoMode: process.env.NEXT_PUBLIC_DEMO_MODE !== "false",
+  ownerEmails: (process.env.NEXT_PUBLIC_OWNER_EMAILS || "isa@nexamind.example,isa@nexapixelai.com")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean),
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
   supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
 };

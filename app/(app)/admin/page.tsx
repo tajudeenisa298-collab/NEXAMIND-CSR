@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { AlertTriangle, Building2, Coins, DatabaseZap, Gauge, RefreshCw, ServerCrash, Sparkles } from "lucide-react";
 import { StatCard } from "@/components/stat-card";
+import { isPlatformAdmin, useAuth } from "@/lib/auth";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type AdminDashboard = {
   totals: {
@@ -53,6 +55,8 @@ type AdminDashboard = {
 };
 
 export default function AdminPanelPage() {
+  const { user } = useAuth();
+  const allowed = isPlatformAdmin(user);
   const [dashboard, setDashboard] = useState<AdminDashboard | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -66,7 +70,15 @@ export default function AdminPanelPage() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("/api/admin/dashboard");
+      const supabase = getSupabaseBrowserClient();
+      const session = supabase ? (await supabase.auth.getSession()).data.session : null;
+      const response = await fetch("/api/admin/dashboard", {
+        headers: session?.access_token
+          ? {
+              authorization: `Bearer ${session.access_token}`
+            }
+          : {}
+      });
       const json = await response.json();
       if (!response.ok) throw new Error(json.error?.message || "Admin Panel failed to load.");
       setDashboard(json);
@@ -78,8 +90,21 @@ export default function AdminPanelPage() {
   }
 
   useEffect(() => {
-    void loadAdmin();
-  }, []);
+    if (allowed) void loadAdmin();
+  }, [allowed]);
+
+  if (!allowed) {
+    return (
+      <div className="access-denied-card">
+        <span className="eyebrow">Owner Dashboard</span>
+        <h1>This area is for Nexamind admins</h1>
+        <p className="muted">
+          Tenant users only see their company dashboard, support stats, Company Brain,
+          conversations, automations, and settings.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>

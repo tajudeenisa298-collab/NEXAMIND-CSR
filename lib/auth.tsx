@@ -11,7 +11,7 @@ import {
 import { appEnv } from "@/lib/env";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
-type AppUser = {
+export type AppUser = {
   id: string;
   email: string;
   name: string;
@@ -23,7 +23,7 @@ type AuthContextValue = {
   loading: boolean;
   authMode: "demo" | "supabase";
   signInDemo: () => void;
-  signInWithEmail: (email: string) => Promise<string>;
+  signInWithPassword: (email: string, password: string) => Promise<AppUser>;
   signOut: () => Promise<void>;
 };
 
@@ -38,8 +38,8 @@ const demoUser: AppUser = {
 };
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AppUser | null>(() => (appEnv.demoMode ? demoUser : null));
-  const [loading, setLoading] = useState(!appEnv.demoMode);
+  const [user, setUser] = useState<AppUser | null>(null);
+  const [loading, setLoading] = useState(true);
   const supabase = useMemo(() => getSupabaseBrowserClient(), []);
   const authMode: AuthContextValue["authMode"] = supabase && !appEnv.demoMode ? "supabase" : "demo";
 
@@ -47,16 +47,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let mounted = true;
 
     async function loadSession() {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-
-      if (stored) {
-        setUser(JSON.parse(stored) as AppUser);
-      }
-
       if (appEnv.demoMode) {
+        const stored = window.localStorage.getItem(STORAGE_KEY);
         if (mounted && !stored) {
           window.localStorage.setItem(STORAGE_KEY, JSON.stringify(demoUser));
           setUser(demoUser);
+        } else if (mounted && stored) {
+          setUser(JSON.parse(stored) as AppUser);
         }
         if (mounted) setLoading(false);
         return;
@@ -66,21 +63,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         try {
           const { data } = await withTimeout(supabase.auth.getUser(), 4500);
           if (mounted && data.user) {
-            setUser({
-              id: data.user.id,
-              email: data.user.email || "unknown@example.com",
-              name:
-                data.user.user_metadata?.full_name ||
-                data.user.email?.split("@")[0] ||
-                "Support user",
-              role: "Owner"
-            });
+            setUser(mapSupabaseUser(data.user));
           }
         } catch {
-          if (mounted && !stored) {
-            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(demoUser));
-            setUser(demoUser);
-          }
+          if (mounted) setUser(null);
         }
       }
 
@@ -102,25 +88,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(false);
   }, []);
 
-  const signInWithEmail = useCallback(
-    async (email: string) => {
+  const signInWithPassword = useCallback(
+    async (email: string, password: string) => {
       if (!supabase) {
         signInDemo();
-        return "Supabase is not configured yet, so demo mode signed you in locally.";
+        return demoUser;
       }
 
-      const { error } = await supabase.auth.signInWithOtp({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`
-        }
+        password
       });
 
       if (error) {
         throw error;
       }
 
-      return "Magic link sent. Check your email to continue.";
+      if (!data.user) {
+        throw new Error("No user returned after sign in.");
+      }
+
+      const nextUser = mapSupabaseUser(data.user);
+      setUser(nextUser);
+      return nextUser;
     },
     [signInDemo, supabase]
   );
@@ -135,11 +125,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [supabase]);
 
   const value = useMemo(
-    () => ({ user, loading, authMode, signInDemo, signInWithEmail, signOut }),
-    [authMode, loading, signInDemo, signInWithEmail, signOut, user]
+    () => ({ user, loading, authMode, signInDemo, signInWithPassword, signOut }),
+    [authMode, loading, signInDemo, signInWithPassword, signOut, user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+function mapSupabaseUser(user: {
+  id: string;
+  email?: string | null;
+  user_metadata?: Record<string, unknown>;
+}): AppUser {
+  const email = user.email || "unknown@example.com";
+  const metadataRole = String(user.user_metadata?.role || "").toLowerCase();
+  const ownerByEmail = appEnv.ownerEmails.includes(email.toLowerCase());
+  const role: AppUser["role"] =
+    ownerByEmail || metadataRole === "owner"
+      ? "Owner"
+      : metadataRole === "admin"
+        ? "Admin"
+        : metadataRole === "agent"
+          ? "Agent"
+          : "Manager";
+
+  return {
+    id: user.id,
+    email,
+    name:
+      String(user.user_metadata?.full_name || "") ||
+      String(user.user_metadata?.name || "") ||
+      email.split("@")[0] ||
+      "Nexamind user",
+    role
+  };
+}
+
+export function isPlatformAdmin(user: AppUser | null) {
+  return user?.role === "Owner" || user?.role === "Admin";
 }
 
 export function useAuth() {

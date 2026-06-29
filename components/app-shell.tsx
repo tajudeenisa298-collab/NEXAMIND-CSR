@@ -9,8 +9,8 @@ import { OrgSwitcher } from "@/components/org-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ToastCenter } from "@/components/toast-center";
 import { appEnv } from "@/lib/env";
-import { navItems } from "@/lib/demo-data";
-import { useAuth } from "@/lib/auth";
+import { ownerNavItems, tenantNavItems } from "@/lib/demo-data";
+import { isPlatformAdmin, useAuth } from "@/lib/auth";
 import { useOrganization } from "@/lib/org";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +18,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user, signOut, authMode } = useAuth();
   const { activeOrganization } = useOrganization();
+  const platformAdmin = isPlatformAdmin(user);
+  const navigationItems = platformAdmin ? ownerNavItems : tenantNavItems;
   const brandStyle = {
     "--accent": activeOrganization.brandColor || "#1f8a5b"
   } as CSSProperties;
@@ -39,10 +41,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <kbd>/</kbd>
           </div>
 
-          <OrgSwitcher />
+          {platformAdmin ? <OrgSwitcher /> : (
+            <div className="tenant-scope-card">
+              <span className="eyebrow">Tenant Workspace</span>
+              <strong>{activeOrganization.name}</strong>
+              <span>{activeOrganization.plan} plan</span>
+            </div>
+          )}
 
           <nav className="nav" aria-label="Main navigation">
-            {navItems.map((item) => {
+            {navigationItems.map((item) => {
               const Icon = item.icon;
               const active = pathname === item.href;
 
@@ -89,7 +97,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </div>
             </div>
             <div className="topbar-actions">
-              <span className="badge">{authMode === "supabase" ? "Supabase Auth" : "Demo Auth"}</span>
+              <span className="badge">{authMode === "supabase" ? "Password Auth" : "Demo Auth"}</span>
               <ThemeToggle />
               <span className="badge">{user?.role}</span>
             </div>
