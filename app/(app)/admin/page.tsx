@@ -86,7 +86,7 @@ export default function AdminPanelPage() {
       <div className="page-title">
         <div>
           <span className="eyebrow">Admin Panel</span>
-          <h1>Operator view for SupportFlow AI</h1>
+          <h1>Operator view for Nexamind</h1>
           <p>
             See every company, workspace build, crawl job, failed build, API usage, and
             estimated OpenAI spend from one internal control room.

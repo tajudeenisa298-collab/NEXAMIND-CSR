@@ -544,7 +544,7 @@ async function crawlWebsite(website: string): Promise<PersistedCrawlPage[]> {
 async function fetchHtml(url: string) {
   try {
     const response = await fetch(url, {
-      headers: { "user-agent": "SupportFlowAICompanyBrain/0.2" },
+      headers: { "user-agent": "NexamindCompanyBrain/0.2" },
       signal: AbortSignal.timeout(5000)
     });
     const contentType = response.headers.get("content-type") || "";

@@ -28,11 +28,11 @@ type AuthContextValue = {
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
-const STORAGE_KEY = "supportflow.demo.user";
+const STORAGE_KEY = "nexamind.demo.user";
 
 const demoUser: AppUser = {
   id: "user_demo_owner",
-  email: "isa@supportflow.example",
+  email: "isa@nexamind.example",
   name: "Isa Demo",
   role: "Owner"
 };

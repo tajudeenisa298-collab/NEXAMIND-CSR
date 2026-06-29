@@ -9,7 +9,7 @@ import { useAuth } from "@/lib/auth";
 export default function LoginPage() {
   const router = useRouter();
   const { signInDemo, signInWithEmail, user } = useAuth();
-  const [email, setEmail] = useState("isa@supportflow.example");
+  const [email, setEmail] = useState("isa@nexamind.example");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -88,7 +88,7 @@ export default function LoginPage() {
 }
 
 function getPostLoginRoute() {
-  return window.localStorage.getItem("supportflow.workspace.created")
+  return window.localStorage.getItem("nexamind.workspace.created")
     ? "/dashboard"
     : "/workspace/new";
 }

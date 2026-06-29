@@ -5,8 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SupportFlow AI",
-  description: "AI-native customer support SaaS shell"
+  title: "Nexamind",
+  description: "AI-native customer support platform"
 };
 
 export default function RootLayout({
@@ -26,4 +26,3 @@ export default function RootLayout({
     </html>
   );
 }
-

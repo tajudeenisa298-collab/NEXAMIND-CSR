@@ -571,7 +571,7 @@ export default function SupportChatPage() {
               <article className={cn("chat-message", message.role)} key={message.id}>
                 <div className={cn("chat-bubble", message.role === "assistant" && streaming && !message.content && "is-thinking")}>
                   <div className="message-meta">
-                    <strong>{message.role === "assistant" ? "SupportFlow AI" : "Customer"}</strong>
+                    <strong>{message.role === "assistant" ? "Nexamind AI" : "Customer"}</strong>
                     {message.role === "assistant" && message.metrics ? (
                       <ConfidenceBadge value={message.metrics.confidence} />
                     ) : null}

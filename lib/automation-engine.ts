@@ -745,7 +745,7 @@ async function logWorkflow(
 
 function formatNotificationPayload(input: AutomationRequest, destination: string) {
   const base = {
-    subject: input.subject || "SupportFlow AI automation",
+    subject: input.subject || "Nexamind automation",
     description: input.description || input.reason || "Automation requested.",
     priority: input.priority || "normal",
     intent: input.intent || null,

@@ -222,7 +222,7 @@ async function seedDemoKnowledge(organizationId: string, companyName: string, we
     category: source.type,
     document_type: "html",
     status: "ready",
-    clean_text: `${source.title}. ${companyName} supports customers with billing, product usage, account access, licensing, and troubleshooting. This generated demo source gives SupportFlow AI grounded material for a personalized prospect walkthrough.`,
+    clean_text: `${source.title}. ${companyName} supports customers with billing, product usage, account access, licensing, and troubleshooting. This generated demo source gives Nexamind grounded material for a personalized prospect walkthrough.`,
     metadata: { demoGenerated: true, sourceType: source.type, profile: brain.profile },
     checksum: `demo-${index}`
   }));
@@ -372,7 +372,7 @@ async function seedDemoConversations(organizationId: string, companyName: string
         currentIssue: issue.title,
         previousIssues: [],
         verifiedSteps: [],
-        waitingOn: issue.status === "waiting" ? "Customer confirmation" : "SupportFlow AI",
+        waitingOn: issue.status === "waiting" ? "Customer confirmation" : "Nexamind AI",
         lastSentiment: issue.sentiment,
         lastPriority: issue.priority
       }
@@ -394,7 +394,7 @@ async function seedDemoConversations(organizationId: string, companyName: string
     await supabase.from("conversation_summaries").upsert({
       organization_id: organizationId,
       conversation_id: conversation.id,
-      summary: `${issue.customer} asked about ${issue.title}. SupportFlow AI answered with grounded next steps for ${companyName}.`,
+      summary: `${issue.customer} asked about ${issue.title}. Nexamind AI answered with grounded next steps for ${companyName}.`,
       customer_name: issue.customer,
       current_issue: issue.question,
       previous_troubleshooting: issue.status === "escalated" ? [issue.question] : [],
@@ -418,7 +418,7 @@ async function seedDemoConversations(organizationId: string, companyName: string
           organization_id: organizationId,
           conversation_id: conversation.id,
           participant_type: "ai",
-          display_name: "SupportFlow AI"
+          display_name: "Nexamind AI"
         }
       ]);
     }
@@ -517,7 +517,7 @@ function buildDemoSources(companyName: string, website: string, intent: string) 
       score: 0.84,
       similarityScore: 0.82,
       snippet: `Help Center source used to ground support steps for ${companyName}.`,
-      chunkText: `SupportFlow AI uses the ${companyName} Help Center to answer common customer questions.`
+      chunkText: `Nexamind uses the ${companyName} Help Center to answer common customer questions.`
     }
   ];
 }

@@ -10,7 +10,7 @@ type ThemeContextValue = {
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
-const STORAGE_KEY = "supportflow.theme";
+const STORAGE_KEY = "nexamind.theme";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
@@ -46,4 +46,3 @@ export function useTheme() {
 
   return context;
 }
-

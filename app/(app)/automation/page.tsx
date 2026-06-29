@@ -103,7 +103,7 @@ export default function AutomationPage() {
           customerName: "Demo Customer",
           customerEmail: "customer@example.com",
           subject: `Test: ${workflow.name}`,
-          description: "SupportFlow AI automation test run.",
+          description: "Nexamind automation test run.",
           priority: "normal",
           intent: "Automation Test",
           assignedQueue: "support",

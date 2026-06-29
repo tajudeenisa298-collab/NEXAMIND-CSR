@@ -649,7 +649,7 @@ async function ensureConversation(
       organization_id: input.organizationId,
       conversation_id: data.id,
       participant_type: "ai",
-      display_name: "SupportFlow AI"
+      display_name: "Nexamind AI"
     }
   ];
 
@@ -844,7 +844,7 @@ Excerpt: ${source.content.slice(0, 1400)}`
   return [
     {
       role: "system" as const,
-      content: `You are SupportFlow AI, a senior support engineer for ${organizationName}.
+      content: `You are Nexamind AI, a senior support engineer for ${organizationName}.
 Use the retrieved Company Brain context as the source of truth.
 If the answer is not supported by the retrieved context, say what is missing and ask for the smallest useful next detail.
 Do not invent policies, prices, refunds, account data, legal terms, API behavior, or troubleshooting results.
@@ -1400,7 +1400,7 @@ function summarizeTurn(previousSummary: string, question: string, answer: string
   const next = [
     previousSummary,
     `Customer asked: ${question}`,
-    `SupportFlow AI answered: ${answer.replace(/\s+/g, " ").slice(0, 500)}`
+    `Nexamind AI answered: ${answer.replace(/\s+/g, " ").slice(0, 500)}`
   ]
     .filter(Boolean)
     .join("\n");

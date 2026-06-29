@@ -90,7 +90,7 @@ export async function runProductionReadinessCheck(organizationId: string) {
         status: missingTables.length ? "fail" : "pass",
         message: missingTables.length
           ? `Missing tables: ${missingTables.map((table) => table.table).join(", ")}`
-          : "All expected SupportFlow AI tables exist.",
+          : "All expected Nexamind tables exist.",
         details: missingTables
       });
 
@@ -228,7 +228,7 @@ async function runEmbeddingCheck(): Promise<ReadinessCheck> {
       },
       body: JSON.stringify({
         model: serverEnv.embeddingModel,
-        input: "SupportFlow AI production readiness check",
+        input: "Nexamind production readiness check",
         dimensions: serverEnv.embeddingDimensions
       })
     });

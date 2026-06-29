@@ -1,5 +1,5 @@
 export const appEnv = {
-  appName: process.env.NEXT_PUBLIC_APP_NAME || "SupportFlow AI",
+  appName: process.env.NEXT_PUBLIC_APP_NAME || "Nexamind",
   demoMode: process.env.NEXT_PUBLIC_DEMO_MODE !== "false",
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || "",
   supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""

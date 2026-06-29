@@ -27,8 +27,8 @@ export function ToastCenter() {
       }, 3800);
     }
 
-    window.addEventListener("supportflow:toast", handleToast);
-    return () => window.removeEventListener("supportflow:toast", handleToast);
+    window.addEventListener("nexamind:toast", handleToast);
+    return () => window.removeEventListener("nexamind:toast", handleToast);
   }, []);
 
   if (!toasts.length) return null;

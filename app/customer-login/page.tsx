@@ -7,7 +7,7 @@ import { ArrowRight, Building2, Loader2, LockKeyhole, Mail, Sparkles } from "luc
 import type { Organization } from "@/lib/demo-data";
 import { useOrganization } from "@/lib/org";
 
-const USER_STORAGE_KEY = "supportflow.demo.user";
+const USER_STORAGE_KEY = "nexamind.demo.user";
 
 export default function CustomerLoginPage() {
   return (
@@ -93,7 +93,7 @@ function CustomerLoginContent() {
 
         <h1>{workspace ? `Welcome to ${workspace.name}` : "Preparing your workspace"}</h1>
         <p>
-          Sign in to open your company-only SupportFlow AI workspace with Company Brain,
+          Sign in to open your company-only Nexamind workspace with Company Brain,
           dashboard, knowledge, AI chat, automations, and sample support conversations.
         </p>
 

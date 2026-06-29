@@ -29,8 +29,8 @@ type OrganizationContextValue = {
 };
 
 const OrganizationContext = createContext<OrganizationContextValue | null>(null);
-const STORAGE_KEY = "supportflow.active.organization";
-const ORGS_STORAGE_KEY = "supportflow.organizations";
+const STORAGE_KEY = "nexamind.active.organization";
+const ORGS_STORAGE_KEY = "nexamind.organizations";
 
 export function OrganizationProvider({ children }: { children: React.ReactNode }) {
   const [organizations, setOrganizations] = useState<Organization[]>(demoOrganizations);
@@ -93,7 +93,7 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
         return next;
       });
       setActiveOrganizationId(organization.id);
-      window.localStorage.setItem("supportflow.workspace.created", "true");
+      window.localStorage.setItem("nexamind.workspace.created", "true");
       return organization;
     },
     [setActiveOrganizationId]
@@ -118,7 +118,7 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
     const next = [organization];
     window.localStorage.setItem(ORGS_STORAGE_KEY, JSON.stringify(next));
     window.localStorage.setItem(STORAGE_KEY, organization.id);
-    window.localStorage.setItem("supportflow.workspace.created", "true");
+    window.localStorage.setItem("nexamind.workspace.created", "true");
     setOrganizations(next);
     setActiveOrganizationIdState(organization.id);
   }, []);
@@ -135,9 +135,9 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
 
         window.localStorage.setItem(ORGS_STORAGE_KEY, JSON.stringify(safeNext));
         window.localStorage.setItem(STORAGE_KEY, nextActiveId);
-        window.localStorage.removeItem(`supportflow.companyBrain.${id}`);
-        window.localStorage.removeItem(`supportflow.chat.${id}`);
-        window.localStorage.removeItem(`supportflow.demo.${id}`);
+        window.localStorage.removeItem(`nexamind.companyBrain.${id}`);
+        window.localStorage.removeItem(`nexamind.chat.${id}`);
+        window.localStorage.removeItem(`nexamind.demo.${id}`);
         setActiveOrganizationIdState(nextActiveId);
         return safeNext;
       });
