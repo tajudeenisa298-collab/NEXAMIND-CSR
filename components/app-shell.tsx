@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { CSSProperties } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useMemo, useState, type CSSProperties } from "react";
 import { Bot, Command, LogOut, Search, Sparkles } from "lucide-react";
 import { AuthGate } from "@/components/auth-gate";
 import { OrgSwitcher } from "@/components/org-switcher";
@@ -16,13 +16,29 @@ import { cn } from "@/lib/utils";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, signOut, authMode } = useAuth();
   const { activeOrganization } = useOrganization();
+  const [searchQuery, setSearchQuery] = useState("");
   const platformAdmin = isPlatformAdmin(user);
   const navigationItems = platformAdmin ? ownerNavItems : tenantNavItems;
+  const searchResults = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return [];
+    return navigationItems
+      .filter((item) => `${item.label} ${item.href}`.toLowerCase().includes(query))
+      .slice(0, 5);
+  }, [navigationItems, searchQuery]);
   const brandStyle = {
     "--accent": activeOrganization.brandColor || "#1f8a5b"
   } as CSSProperties;
+  const goToSearchResult = () => {
+    const target = searchResults[0] || navigationItems.find((item) => item.label.toLowerCase().includes("dashboard"));
+    if (target) {
+      setSearchQuery("");
+      router.push(target.href);
+    }
+  };
 
   return (
     <AuthGate>
@@ -35,17 +51,50 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <span>{appEnv.appName}</span>
           </Link>
 
-          <div className="sidebar-search" role="search">
-            <Search size={14} />
-            <span>Search</span>
-            <kbd>/</kbd>
+          <div className="sidebar-search-wrap">
+            <form
+              className="sidebar-search"
+              onSubmit={(event) => {
+                event.preventDefault();
+                goToSearchResult();
+              }}
+              role="search"
+            >
+              <Search size={14} />
+              <input
+                aria-label="Search workspace pages"
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    goToSearchResult();
+                  }
+                }}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search"
+                value={searchQuery}
+              />
+              <kbd>/</kbd>
+            </form>
+            {searchResults.length ? (
+              <div className="sidebar-search-results">
+                {searchResults.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link href={item.href} key={item.href} onClick={() => setSearchQuery("")}>
+                      <Icon size={14} />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            ) : null}
           </div>
 
           {platformAdmin ? <OrgSwitcher /> : (
             <div className="tenant-scope-card">
               <span className="eyebrow">Tenant Workspace</span>
               <strong>{activeOrganization.name}</strong>
-              <span>{activeOrganization.plan} plan</span>
+              <span>Company workspace</span>
             </div>
           )}
 
@@ -64,7 +113,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="sidebar-footer">
-            <div className="sidebar-help-card">
+            <Link className="sidebar-help-card" href="/company-brain">
               <span className="help-spark">
                 <Sparkles size={14} />
               </span>
@@ -72,7 +121,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <strong>Get Started</strong>
                 <p>Build the Company Brain, then ask your AI a real support question.</p>
               </div>
-            </div>
+            </Link>
             <div className="sidebar-user-card">
               <span className="user-avatar">{user?.name?.slice(0, 1) || "U"}</span>
               <div>

@@ -8,8 +8,10 @@ import {
   useMemo,
   useState
 } from "react";
+import { isPlatformAdmin, useAuth } from "@/lib/auth";
 import { normalizeWebsiteInput } from "@/lib/company-brain";
 import { demoOrganizations, type Organization } from "@/lib/demo-data";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type OrganizationContextValue = {
   organizations: Organization[];
@@ -33,6 +35,7 @@ const STORAGE_KEY = "nexamind.active.organization";
 const ORGS_STORAGE_KEY = "nexamind.organizations";
 
 export function OrganizationProvider({ children }: { children: React.ReactNode }) {
+  const { user, authMode } = useAuth();
   const [organizations, setOrganizations] = useState<Organization[]>(demoOrganizations);
   const [activeOrganizationId, setActiveOrganizationIdState] = useState(demoOrganizations[0].id);
 
@@ -53,6 +56,46 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
       setActiveOrganizationIdState(storedActiveId);
     }
   }, []);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadMemberships() {
+      if (!user || authMode !== "supabase" || isPlatformAdmin(user)) return;
+
+      const supabase = getSupabaseBrowserClient();
+      const { data } = supabase ? await supabase.auth.getSession() : { data: { session: null } };
+      const token = data.session?.access_token;
+      if (!token) return;
+
+      try {
+        const response = await fetch("/api/organizations/memberships", {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        });
+        const json = await response.json();
+        const memberOrganizations = (json.organizations || []) as Organization[];
+
+        if (mounted && memberOrganizations.length) {
+          const currentActive = memberOrganizations.find((organization) => organization.id === activeOrganizationId);
+          const nextActive = currentActive || memberOrganizations[0];
+          setOrganizations(memberOrganizations);
+          setActiveOrganizationIdState(nextActive.id);
+          window.localStorage.setItem(ORGS_STORAGE_KEY, JSON.stringify(memberOrganizations));
+          window.localStorage.setItem(STORAGE_KEY, nextActive.id);
+        }
+      } catch {
+        // Keep the local workspace fallback available if membership lookup is unavailable.
+      }
+    }
+
+    void loadMemberships();
+
+    return () => {
+      mounted = false;
+    };
+  }, [activeOrganizationId, authMode, user]);
 
   const setActiveOrganizationId = useCallback((id: string) => {
     setActiveOrganizationIdState(id);

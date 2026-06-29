@@ -2547,6 +2547,44 @@ button:active,
   }
 }
 
+/* Final production shell override. Keep this at the end so no demo-frame layer can win. */
+body,
+[data-theme="dark"] body {
+  background: var(--panel);
+  padding: 0;
+}
+
+.app-frame,
+[data-theme="dark"] .app-frame {
+  min-height: 100vh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sidebar {
+  height: 100vh;
+}
+
+/* Production frame: the app should fill the browser, not sit inside a demo canvas. */
+body,
+[data-theme="dark"] body {
+  background: var(--panel);
+  padding: 0;
+}
+
+.app-frame,
+[data-theme="dark"] .app-frame {
+  min-height: 100vh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sidebar {
+  height: 100vh;
+}
+
 /* Production interaction layer */
 .clickable-row,
 .clickable-table-row {
@@ -2772,6 +2810,51 @@ body {
   color: var(--muted);
   padding: 7px 8px;
   font-size: 12px;
+}
+
+.sidebar-search-wrap {
+  position: relative;
+}
+
+.sidebar-search input {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  outline: 0;
+}
+
+.sidebar-search input::placeholder {
+  color: var(--muted);
+}
+
+.sidebar-search-results {
+  position: absolute;
+  z-index: 40;
+  inset: calc(100% + 6px) 0 auto 0;
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--text) 14%, transparent);
+  padding: 6px;
+}
+
+.sidebar-search-results a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  color: var(--muted);
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sidebar-search-results a:hover {
+  background: var(--panel-muted);
+  color: var(--text);
 }
 
 [data-theme="dark"] .sidebar-search {
@@ -3819,4 +3902,23 @@ body {
     scroll-behavior: auto !important;
     transition-duration: 1ms !important;
   }
+}
+
+/* Final production shell override. Keep this at the end so no demo-frame layer can win. */
+body,
+[data-theme="dark"] body {
+  background: var(--panel);
+  padding: 0;
+}
+
+.app-frame,
+[data-theme="dark"] .app-frame {
+  min-height: 100vh;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.sidebar {
+  height: 100vh;
 }
