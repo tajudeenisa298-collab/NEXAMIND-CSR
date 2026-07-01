@@ -140,11 +140,19 @@ export async function buildCompanyBrainPersisted(input: BuildCompanyBrainInput) 
       }
     };
 
+    const { data: existingOrganization } = await supabase
+      .from("organizations")
+      .select("profile")
+      .eq("id", organizationId)
+      .maybeSingle();
+
+    const mergedProfile = mergeOrganizationProfile(existingOrganization?.profile, hydratedBrain.profile);
+
     const { error: profileError } = await supabase
       .from("organizations")
       .update({
-        industry: hydratedBrain.profile.industry,
-        profile: hydratedBrain.profile,
+        industry: mergedProfile.industry || hydratedBrain.profile.industry,
+        profile: mergedProfile,
         updated_at: new Date().toISOString()
       })
       .eq("id", organizationId);
@@ -343,6 +351,27 @@ export async function buildCompanyBrainPersisted(input: BuildCompanyBrainInput) 
     const { error } = await supabaseAdmin.from("embeddings").insert(inserts);
     if (error) throw new Error(error.message);
   }
+}
+
+function mergeOrganizationProfile(existingProfile: unknown, nextProfile: CompanyBrain["profile"]) {
+  const existing = isRecord(existingProfile) ? existingProfile : {};
+  const next = nextProfile as CompanyBrain["profile"] & Record<string, any>;
+
+  return {
+    ...next,
+    company: existing.company || next.company,
+    logoUrl: existing.logoUrl || next.logoUrl || null,
+    primaryColor: existing.primaryColor || existing.brandColor || next.primaryColor || "#1f8a5b",
+    brandColor: existing.brandColor || existing.primaryColor || next.brandColor || "#1f8a5b",
+    supportEmail: existing.supportEmail || next.supportEmail || null,
+    plan: existing.plan || next.plan || "Pro",
+    timezone: existing.timezone || next.timezone || "America/Los_Angeles",
+    escalationThreshold: existing.escalationThreshold || next.escalationThreshold || 0.72
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, any> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
 
 export async function getPersistedCompanyBrain(organizationId: string) {

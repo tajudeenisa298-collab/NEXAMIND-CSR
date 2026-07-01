@@ -74,7 +74,7 @@ function mapOrganization(organization: OrganizationRow) {
     website,
     supportEmail: profile.supportEmail || `support@${hostname}`,
     timezone: profile.timezone || "America/Los_Angeles",
-    brandColor: profile.primaryColor || "#1f8a5b",
+    brandColor: profile.primaryColor || profile.brandColor || "#1f8a5b",
     logoUrl: profile.logoUrl || undefined,
     aiTone: Array.isArray(profile.tone) ? profile.tone.join(", ") : "Friendly, professional, helpful",
     escalationThreshold: Number(profile.escalationThreshold || 0.72)

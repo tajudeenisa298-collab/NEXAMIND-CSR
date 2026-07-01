@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     website: data.website || "",
     supportEmail: profile.supportEmail || `support@${new URL(data.website || "https://example.com").hostname}`,
     timezone: "America/Los_Angeles",
-    brandColor: profile.primaryColor || "#1f8a5b",
+    brandColor: profile.primaryColor || profile.brandColor || "#1f8a5b",
     logoUrl: profile.logoUrl || undefined,
     aiTone: Array.isArray(profile.tone) ? profile.tone.join(", ") : "Friendly, professional, helpful",
     escalationThreshold: 0.72
