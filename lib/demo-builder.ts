@@ -1,5 +1,6 @@
 import { buildCompanyBrainPersisted } from "@/lib/company-brain-pipeline";
 import { createCompanyBrain, createSource, getCompanyNameFromWebsite, normalizeWebsiteInput } from "@/lib/company-brain";
+import { normalizeOrganizationDisplayName } from "@/lib/organization-display";
 import { getBackendConfigStatus, serverEnv } from "@/lib/server-env";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
@@ -63,7 +64,10 @@ const sampleIssues = [
 
 export async function buildPersonalizedDemo(input: DemoBuilderInput) {
   const website = normalizeWebsiteInput(input.website);
-  const companyName = input.companyName.trim() || getCompanyNameFromWebsite(website);
+  const companyName = normalizeOrganizationDisplayName({
+    id: input.organizationId,
+    name: input.companyName.trim() || getCompanyNameFromWebsite(website)
+  });
   const backend = getBackendConfigStatus();
   const supabase = getSupabaseAdminClient();
 

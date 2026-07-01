@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { normalizeOrganizationDisplayName } from "@/lib/organization-display";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 export async function GET(request: NextRequest) {
@@ -63,7 +64,12 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     id: data.id,
-    name: data.name || profile.company || "Customer Workspace",
+    name: normalizeOrganizationDisplayName({
+      id: data.id,
+      name: data.name,
+      profileCompany: profile.company,
+      slug: data.slug
+    }),
     slug: data.slug || data.id.replace(/^org_/, ""),
     plan: "Demo",
     website: data.website || "",

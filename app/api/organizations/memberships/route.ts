@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { normalizeOrganizationDisplayName } from "@/lib/organization-display";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 type OrganizationRow = {
@@ -68,7 +69,12 @@ function mapOrganization(organization: OrganizationRow) {
 
   return {
     id: organization.id,
-    name: organization.name || profile.company || "Customer Workspace",
+    name: normalizeOrganizationDisplayName({
+      id: organization.id,
+      name: organization.name,
+      profileCompany: profile.company,
+      slug: organization.slug
+    }),
     slug: organization.slug || organization.id.replace(/^org_/, ""),
     plan: profile.plan || "Pro",
     website,
