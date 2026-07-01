@@ -44,14 +44,6 @@ export async function getBusinessImpactDashboard(organizationId: string) {
     .eq("organization_id", organizationId)
     .maybeSingle();
 
-  const assumptions = {
-    monthlyTickets: assumptionsRow?.monthly_tickets || 2000,
-    averageResolutionMinutes: Number(assumptionsRow?.average_resolution_minutes || 8),
-    averageAgentHourlyCost: Number(assumptionsRow?.average_agent_hourly_cost || 25),
-    aiResolutionRate: Number(assumptionsRow?.ai_resolution_rate || 0.8),
-    aiCostPerConversation: Number(assumptionsRow?.ai_cost_per_conversation || 0.12)
-  };
-
   const [{ count: conversationCount }, { count: humanCount }, { data: messages }] = await Promise.all([
     supabase.from("conversations").select("*", { count: "exact", head: true }).eq("organization_id", organizationId),
     supabase
@@ -68,8 +60,20 @@ export async function getBusinessImpactDashboard(organizationId: string) {
   ]);
 
   const actualVolume = conversationCount || 0;
-  const resolvedByAi = actualVolume ? Math.max(0, actualVolume - (humanCount || 0)) / actualVolume : assumptions.aiResolutionRate;
-  const aiResolutionRate = Math.max(assumptions.aiResolutionRate, resolvedByAi);
+  const actualHumanRate = actualVolume ? (humanCount || 0) / actualVolume : 0;
+  const actualAiResolutionRate = actualVolume ? Math.max(0, 1 - actualHumanRate) : 0;
+  const hasCustomAssumptions = Boolean(assumptionsRow);
+  const assumptions = {
+    monthlyTickets: assumptionsRow?.monthly_tickets ?? actualVolume,
+    averageResolutionMinutes: Number(assumptionsRow?.average_resolution_minutes || 8),
+    averageAgentHourlyCost: Number(assumptionsRow?.average_agent_hourly_cost || 25),
+    aiResolutionRate: Number(assumptionsRow?.ai_resolution_rate ?? actualAiResolutionRate),
+    aiCostPerConversation: Number(assumptionsRow?.ai_cost_per_conversation || 0.12)
+  };
+
+  const aiResolutionRate = hasCustomAssumptions
+    ? Math.max(assumptions.aiResolutionRate, actualAiResolutionRate)
+    : actualAiResolutionRate;
   const humanRate = 1 - aiResolutionRate;
   const monthlyTickets = Math.max(assumptions.monthlyTickets, actualVolume);
   const humanHoursBefore = (monthlyTickets * assumptions.averageResolutionMinutes) / 60;
@@ -107,9 +111,9 @@ function buildTrend(monthlyTickets: number, aiResolutionRate: number, savings: n
     return {
       label,
       supportVolume: Math.round(monthlyTickets * growth),
-      aiResolution: Math.round((aiResolutionRate - 0.12 + index * 0.024) * 100),
+      aiResolution: Math.max(0, Math.min(100, Math.round((aiResolutionRate - 0.12 + index * 0.024) * 100))),
       moneySaved: Math.round(savings * growth),
-      customerSatisfaction: Math.min(98, 82 + index * 3)
+      customerSatisfaction: monthlyTickets ? Math.min(98, 82 + index * 3) : 0
     };
   });
 }

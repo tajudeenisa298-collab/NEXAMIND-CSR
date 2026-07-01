@@ -16,6 +16,7 @@ import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 type OrganizationContextValue = {
   organizations: Organization[];
   activeOrganization: Organization;
+  organizationLoading: boolean;
   setActiveOrganizationId: (id: string) => void;
   createOrganization: (input: {
     name: string;
@@ -38,6 +39,7 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
   const { user, authMode } = useAuth();
   const [organizations, setOrganizations] = useState<Organization[]>(demoOrganizations);
   const [activeOrganizationId, setActiveOrganizationIdState] = useState(demoOrganizations[0].id);
+  const [organizationLoading, setOrganizationLoading] = useState(false);
 
   useEffect(() => {
     const storedOrganizations = window.localStorage.getItem(ORGS_STORAGE_KEY);
@@ -63,10 +65,14 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
     async function loadMemberships() {
       if (!user || authMode !== "supabase" || isPlatformAdmin(user)) return;
 
+      setOrganizationLoading(true);
       const supabase = getSupabaseBrowserClient();
       const { data } = supabase ? await supabase.auth.getSession() : { data: { session: null } };
       const token = data.session?.access_token;
-      if (!token) return;
+      if (!token) {
+        if (mounted) setOrganizationLoading(false);
+        return;
+      }
 
       try {
         const response = await fetch("/api/organizations/memberships", {
@@ -77,16 +83,28 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
         const json = await response.json();
         const memberOrganizations = (json.organizations || []) as Organization[];
 
-        if (mounted && memberOrganizations.length) {
-          const currentActive = memberOrganizations.find((organization) => organization.id === activeOrganizationId);
-          const nextActive = currentActive || memberOrganizations[0];
-          setOrganizations(memberOrganizations);
-          setActiveOrganizationIdState(nextActive.id);
-          window.localStorage.setItem(ORGS_STORAGE_KEY, JSON.stringify(memberOrganizations));
-          window.localStorage.setItem(STORAGE_KEY, nextActive.id);
+        if (mounted) {
+          if (memberOrganizations.length) {
+            const currentActive = memberOrganizations.find((organization) => organization.id === activeOrganizationId);
+            const nextActive = currentActive || memberOrganizations[0];
+            setOrganizations(memberOrganizations);
+            setActiveOrganizationIdState(nextActive.id);
+            window.localStorage.setItem(ORGS_STORAGE_KEY, JSON.stringify(memberOrganizations));
+            window.localStorage.setItem(STORAGE_KEY, nextActive.id);
+          } else {
+            setOrganizations([]);
+            setActiveOrganizationIdState("");
+            window.localStorage.removeItem(ORGS_STORAGE_KEY);
+            window.localStorage.removeItem(STORAGE_KEY);
+          }
         }
       } catch {
-        // Keep the local workspace fallback available if membership lookup is unavailable.
+        if (mounted) {
+          setOrganizations([]);
+          setActiveOrganizationIdState("");
+        }
+      } finally {
+        if (mounted) setOrganizationLoading(false);
       }
     }
 
@@ -190,12 +208,14 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
 
   const activeOrganization =
     organizations.find((organization) => organization.id === activeOrganizationId) ||
-    organizations[0];
+    organizations[0] ||
+    createUnassignedOrganization(user?.email);
 
   const value = useMemo(
     () => ({
       organizations,
       activeOrganization,
+      organizationLoading,
       createOrganization,
       removeOrganization,
       setCustomerWorkspace,
@@ -205,6 +225,7 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
     [
       activeOrganization,
       createOrganization,
+      organizationLoading,
       removeOrganization,
       setCustomerWorkspace,
       organizations,
@@ -226,4 +247,19 @@ export function useOrganization() {
   }
 
   return context;
+}
+
+function createUnassignedOrganization(email?: string): Organization {
+  return {
+    id: "org_unassigned",
+    name: "Workspace not assigned",
+    slug: "unassigned",
+    plan: "Pro",
+    website: "https://example.com",
+    supportEmail: email || "support@example.com",
+    timezone: "America/Los_Angeles",
+    brandColor: "#1f8a5b",
+    aiTone: "Friendly, professional, helpful",
+    escalationThreshold: 0.72
+  };
 }

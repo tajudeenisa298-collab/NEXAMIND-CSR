@@ -49,7 +49,7 @@ type ExecutiveDashboard = {
 export default function DashboardPage() {
   const { activeOrganization } = useOrganization();
   const [executiveDashboard, setExecutiveDashboard] = useState<ExecutiveDashboard | null>(null);
-  const [dashboardStatus, setDashboardStatus] = useState<"loading" | "live" | "fallback">("loading");
+  const [dashboardStatus, setDashboardStatus] = useState<"loading" | "live" | "empty">("loading");
   const [conversationSearch, setConversationSearch] = useState("");
   const conversations = demoConversations.filter(
     (conversation) => conversation.organizationId === activeOrganization.id
@@ -80,7 +80,7 @@ export default function DashboardPage() {
       } catch {
         if (!cancelled) {
           setExecutiveDashboard(null);
-          setDashboardStatus("fallback");
+          setDashboardStatus("empty");
         }
       }
     }
@@ -128,7 +128,7 @@ export default function DashboardPage() {
   const knowledgeCoverage = metricMap.get("Knowledge Coverage")?.value || `${fallbackKnowledge}%`;
   const estimatedSavings = metricMap.get("Estimated Savings")?.value || "$0";
   const ticketsCreated = metricMap.get("Tickets Created")?.value || String(escalated);
-  const confidenceSignal = dashboardStatus === "live" ? "Measured" : "Demo";
+  const confidenceSignal = dashboardStatus === "live" ? "Measured" : "No data yet";
 
   return (
     <>
@@ -146,7 +146,7 @@ export default function DashboardPage() {
             Build Company Brain
           </Link>
           <span className={dashboardStatus === "live" ? "badge success" : "badge warning"}>
-            {dashboardStatus === "loading" ? "Loading analytics" : dashboardStatus === "live" ? "Live analytics" : "Demo fallback"}
+            {dashboardStatus === "loading" ? "Loading analytics" : dashboardStatus === "live" ? "Live analytics" : "No data yet"}
           </span>
         </div>
       </div>

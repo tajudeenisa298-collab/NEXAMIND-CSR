@@ -18,7 +18,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, signOut, authMode } = useAuth();
-  const { activeOrganization } = useOrganization();
+  const { activeOrganization, organizationLoading } = useOrganization();
   const [searchQuery, setSearchQuery] = useState("");
   const platformAdmin = isPlatformAdmin(user);
   const navigationItems = platformAdmin ? ownerNavItems : tenantNavItems;
@@ -42,6 +42,30 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthGate>
+      {organizationLoading ? (
+        <div className="auth-page">
+          <div className="auth-card">
+            <span className="eyebrow">Loading</span>
+            <h1>Preparing your workspace</h1>
+            <p>Checking which company this login belongs to.</p>
+          </div>
+        </div>
+      ) : activeOrganization.id === "org_unassigned" ? (
+        <div className="auth-page">
+          <div className="auth-card">
+            <span className="eyebrow">Workspace access</span>
+            <h1>No company assigned yet</h1>
+            <p>
+              This login is active, but it has not been connected to a company workspace.
+              Add this user to <code>organization_members</code>, then refresh.
+            </p>
+            <button className="button secondary" onClick={() => void signOut()} type="button">
+              <LogOut size={16} />
+              Sign out
+            </button>
+          </div>
+        </div>
+      ) : (
       <div className="app-frame" style={brandStyle}>
         <aside className="sidebar">
           <Link className="brand" href="/dashboard">
@@ -158,6 +182,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <ToastCenter />
         </main>
       </div>
+      )}
     </AuthGate>
   );
 }
