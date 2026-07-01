@@ -40,8 +40,12 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
   const [organizations, setOrganizations] = useState<Organization[]>(demoOrganizations);
   const [activeOrganizationId, setActiveOrganizationIdState] = useState(demoOrganizations[0].id);
   const [organizationLoading, setOrganizationLoading] = useState(false);
+  const [membershipResolved, setMembershipResolved] = useState(false);
+  const tenantRequiresMembership = Boolean(authMode === "supabase" && user && !isPlatformAdmin(user));
 
   useEffect(() => {
+    if (tenantRequiresMembership) return;
+
     const storedOrganizations = window.localStorage.getItem(ORGS_STORAGE_KEY);
     const storedActiveId = window.localStorage.getItem(STORAGE_KEY);
 
@@ -57,15 +61,22 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
     if (storedActiveId) {
       setActiveOrganizationIdState(storedActiveId);
     }
-  }, []);
+    setMembershipResolved(true);
+  }, [authMode, tenantRequiresMembership, user]);
 
   useEffect(() => {
     let mounted = true;
 
     async function loadMemberships() {
-      if (!user || authMode !== "supabase" || isPlatformAdmin(user)) return;
+      if (!tenantRequiresMembership) return;
 
+      setMembershipResolved(false);
       setOrganizationLoading(true);
+      setOrganizations([]);
+      setActiveOrganizationIdState("");
+      window.localStorage.removeItem(ORGS_STORAGE_KEY);
+      window.localStorage.removeItem(STORAGE_KEY);
+
       const supabase = getSupabaseBrowserClient();
       const { data } = supabase ? await supabase.auth.getSession() : { data: { session: null } };
       const token = data.session?.access_token;
@@ -85,8 +96,7 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
 
         if (mounted) {
           if (memberOrganizations.length) {
-            const currentActive = memberOrganizations.find((organization) => organization.id === activeOrganizationId);
-            const nextActive = currentActive || memberOrganizations[0];
+            const nextActive = memberOrganizations[0];
             setOrganizations(memberOrganizations);
             setActiveOrganizationIdState(nextActive.id);
             window.localStorage.setItem(ORGS_STORAGE_KEY, JSON.stringify(memberOrganizations));
@@ -104,7 +114,10 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
           setActiveOrganizationIdState("");
         }
       } finally {
-        if (mounted) setOrganizationLoading(false);
+        if (mounted) {
+          setMembershipResolved(true);
+          setOrganizationLoading(false);
+        }
       }
     }
 
@@ -113,7 +126,7 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
     return () => {
       mounted = false;
     };
-  }, [activeOrganizationId, authMode, user]);
+  }, [authMode, tenantRequiresMembership, user]);
 
   const setActiveOrganizationId = useCallback((id: string) => {
     setActiveOrganizationIdState(id);
@@ -206,16 +219,19 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
     [activeOrganizationId]
   );
 
+  const effectiveOrganizationLoading = organizationLoading || (tenantRequiresMembership && !membershipResolved);
   const activeOrganization =
-    organizations.find((organization) => organization.id === activeOrganizationId) ||
-    organizations[0] ||
-    createUnassignedOrganization(user?.email);
+    effectiveOrganizationLoading
+      ? createUnassignedOrganization(user?.email)
+      : organizations.find((organization) => organization.id === activeOrganizationId) ||
+        organizations[0] ||
+        createUnassignedOrganization(user?.email);
 
   const value = useMemo(
     () => ({
       organizations,
       activeOrganization,
-      organizationLoading,
+      organizationLoading: effectiveOrganizationLoading,
       createOrganization,
       removeOrganization,
       setCustomerWorkspace,
@@ -225,7 +241,7 @@ export function OrganizationProvider({ children }: { children: React.ReactNode }
     [
       activeOrganization,
       createOrganization,
-      organizationLoading,
+      effectiveOrganizationLoading,
       removeOrganization,
       setCustomerWorkspace,
       organizations,
