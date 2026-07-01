@@ -44,23 +44,30 @@ export async function getBusinessImpactDashboard(organizationId: string) {
     .eq("organization_id", organizationId)
     .maybeSingle();
 
-  const [{ count: conversationCount }, { count: humanCount }, { data: messages }] = await Promise.all([
-    supabase.from("conversations").select("*", { count: "exact", head: true }).eq("organization_id", organizationId),
+  const [{ data: conversations }, { data: messages }] = await Promise.all([
     supabase
       .from("conversations")
-      .select("*", { count: "exact", head: true })
-      .eq("organization_id", organizationId)
-      .in("takeover_status", ["human_requested", "human_active"]),
+      .select("id,takeover_status,metadata")
+      .eq("organization_id", organizationId),
     supabase
       .from("messages")
-      .select("latency_ms")
+      .select("conversation_id,latency_ms,metadata")
       .eq("organization_id", organizationId)
       .eq("role", "assistant")
       .limit(100)
   ]);
 
-  const actualVolume = conversationCount || 0;
-  const actualHumanRate = actualVolume ? (humanCount || 0) / actualVolume : 0;
+  const realConversations = (conversations || []).filter((conversation) => !isDemoRecord(conversation));
+  const realConversationIds = new Set(realConversations.map((conversation) => conversation.id));
+  const humanCount = realConversations.filter((conversation) =>
+    ["human_requested", "human_active"].includes(conversation.takeover_status || "")
+  ).length;
+  const realMessages = (messages || []).filter(
+    (message) => !isDemoRecord(message) && (!message.conversation_id || realConversationIds.has(message.conversation_id))
+  );
+
+  const actualVolume = realConversations.length;
+  const actualHumanRate = actualVolume ? humanCount / actualVolume : 0;
   const actualAiResolutionRate = actualVolume ? Math.max(0, 1 - actualHumanRate) : 0;
   const hasCustomAssumptions = Boolean(assumptionsRow);
   const assumptions = {
@@ -83,7 +90,7 @@ export async function getBusinessImpactDashboard(organizationId: string) {
   const aiCost = monthlyTickets * assumptions.aiCostPerConversation;
   const costAfter = humanHoursAfter * assumptions.averageAgentHourlyCost + aiCost;
   const savings = Math.max(0, costBefore - costAfter);
-  const avgLatency = average((messages || []).map((message) => Number(message.latency_ms || 2100))) || 2100;
+  const avgLatency = average(realMessages.map((message) => Number(message.latency_ms || 0)));
 
   return {
     ok: true as const,
@@ -121,4 +128,8 @@ function buildTrend(monthlyTickets: number, aiResolutionRate: number, savings: n
 function average(values: number[]) {
   if (!values.length) return 0;
   return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function isDemoRecord(row: { metadata?: Record<string, unknown> | null }) {
+  return row.metadata?.demoGenerated === true;
 }

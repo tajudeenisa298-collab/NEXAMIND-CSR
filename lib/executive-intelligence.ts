@@ -39,6 +39,7 @@ export type ExecutiveDashboard = {
 };
 
 type IntelligenceRow = {
+  conversation_id: string | null;
   intent: string;
   sentiment: string;
   retrieval_confidence: number | null;
@@ -47,13 +48,24 @@ type IntelligenceRow = {
 };
 
 type ConversationRow = {
+  id: string;
   status: string;
   takeover_status?: string | null;
   assigned_agent?: string | null;
+  metadata?: Record<string, unknown> | null;
 };
 
 type AutomationRunRow = {
+  conversation_id?: string | null;
   status: string;
+  input?: Record<string, unknown> | null;
+  metadata?: Record<string, unknown> | null;
+};
+
+type TicketRow = {
+  id: string;
+  conversation_id?: string | null;
+  metadata?: Record<string, unknown> | null;
 };
 
 type KnowledgeDocumentRow = {
@@ -88,12 +100,12 @@ export async function getExecutiveDashboard(organizationId: string) {
     await Promise.all([
       supabase
         .from("conversations")
-        .select("status,takeover_status,assigned_agent")
+        .select("id,status,takeover_status,assigned_agent,metadata")
         .eq("organization_id", organizationId)
         .gte("created_at", thirtyDaysAgo),
       supabase
         .from("message_intelligence")
-        .select("intent,sentiment,retrieval_confidence,final_confidence,validation_status")
+        .select("conversation_id,intent,sentiment,retrieval_confidence,final_confidence,validation_status")
         .eq("organization_id", organizationId)
         .gte("created_at", thirtyDaysAgo),
       supabase
@@ -106,12 +118,12 @@ export async function getExecutiveDashboard(organizationId: string) {
         .eq("organization_id", organizationId),
       supabase
         .from("automation_runs")
-        .select("status")
+        .select("conversation_id,status,input,metadata")
         .eq("organization_id", organizationId)
         .gte("created_at", thirtyDaysAgo),
       supabase
         .from("support_tickets")
-        .select("id", { count: "exact", head: true })
+        .select("id,conversation_id,metadata")
         .eq("organization_id", organizationId)
         .gte("created_at", thirtyDaysAgo)
     ]);
@@ -127,12 +139,19 @@ export async function getExecutiveDashboard(organizationId: string) {
 
   if (firstError) return executiveError("executive_dashboard_failed", firstError.message);
 
-  const conversations = (conversationsResult.data || []) as ConversationRow[];
-  const intelligence = (intelligenceResult.data || []) as IntelligenceRow[];
+  const conversations = ((conversationsResult.data || []) as ConversationRow[]).filter((conversation) => !isDemoRecord(conversation));
+  const realConversationIds = new Set(conversations.map((conversation) => conversation.id));
+  const intelligence = ((intelligenceResult.data || []) as IntelligenceRow[]).filter(
+    (row) => !row.conversation_id || realConversationIds.has(row.conversation_id)
+  );
   const documents = (documentsResult.data || []) as KnowledgeDocumentRow[];
-  const automationRuns = (automationResult.data || []) as AutomationRunRow[];
+  const automationRuns = ((automationResult.data || []) as AutomationRunRow[]).filter(
+    (run) => !isDemoAutomationRun(run) && (!run.conversation_id || realConversationIds.has(run.conversation_id))
+  );
   const chunkCount = chunksResult.count || 0;
-  const ticketCount = ticketsResult.count || 0;
+  const ticketCount = ((ticketsResult.data || []) as TicketRow[]).filter(
+    (ticket) => !isDemoRecord(ticket) && (!ticket.conversation_id || realConversationIds.has(ticket.conversation_id))
+  ).length;
 
   const supportVolume = conversations.length;
   const resolved = conversations.filter((conversation) => conversation.status === "resolved").length;
@@ -311,6 +330,14 @@ function calculateSavings(input: { aiResolved: number; successfulAutomations: nu
 function percentage(numerator: number, denominator: number) {
   if (!denominator) return 0;
   return Math.round((numerator / denominator) * 100);
+}
+
+function isDemoRecord(row: { metadata?: Record<string, unknown> | null }) {
+  return row.metadata?.demoGenerated === true;
+}
+
+function isDemoAutomationRun(row: AutomationRunRow) {
+  return isDemoRecord(row) || row.input?.source === "demo_builder";
 }
 
 function runtimeError(error: { code: string; message: string } | null) {
