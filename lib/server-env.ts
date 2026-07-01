@@ -1,5 +1,5 @@
 export const serverEnv = {
-  demoMode: (process.env.DEMO_MODE || process.env.NEXT_PUBLIC_DEMO_MODE || "true") !== "false",
+  demoMode: (process.env.DEMO_MODE || process.env.NEXT_PUBLIC_DEMO_MODE) === "true",
   ownerEmails: (process.env.NEXT_PUBLIC_OWNER_EMAILS || "isa@nexamind.example,isa@nexapixelai.com")
     .split(",")
     .map((email) => email.trim().toLowerCase())

@@ -155,13 +155,7 @@ type ApiError = {
   missing?: string[];
 };
 
-const fallbackSuggestedQuestions = [
-  "My credits disappeared",
-  "My render failed",
-  "How do I upgrade?",
-  "Can I use images commercially?",
-  "My API isn't working"
-];
+const fallbackSuggestedQuestions: string[] = [];
 
 export default function SupportChatPage() {
   const { activeOrganization } = useOrganization();
@@ -657,7 +651,7 @@ export default function SupportChatPage() {
                   void sendMessage();
                 }
               }}
-              placeholder="Ask about credits, renders, upgrades, licensing, API errors..."
+              placeholder={`Ask ${activeOrganization.name}'s support AI a question...`}
               value={input}
             />
             <button className="button icon-button" disabled={streaming || !input.trim()} type="submit">

@@ -1,6 +1,6 @@
 import { buildCompanyBrainPersisted } from "@/lib/company-brain-pipeline";
 import { createCompanyBrain, createSource, getCompanyNameFromWebsite, normalizeWebsiteInput } from "@/lib/company-brain";
-import { getBackendConfigStatus } from "@/lib/server-env";
+import { getBackendConfigStatus, serverEnv } from "@/lib/server-env";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 type DemoBuilderInput = {
@@ -112,19 +112,27 @@ export async function buildPersonalizedDemo(input: DemoBuilderInput) {
     });
   }
 
-  await seedDemoConversations(input.organizationId, companyName, website);
-  steps.push({
-    label: "Generate sample conversations",
-    status: "complete",
-    detail: "Seeded support conversations, messages, intelligence, sources, and replay steps."
-  });
+  if (serverEnv.demoMode) {
+    await seedDemoConversations(input.organizationId, companyName, website);
+    steps.push({
+      label: "Generate sample conversations",
+      status: "complete",
+      detail: "Seeded support conversations, messages, intelligence, sources, and replay steps."
+    });
 
-  await seedDemoOperations(input.organizationId);
-  steps.push({
-    label: "Create executive dashboard",
-    status: "complete",
-    detail: "Seeded tickets, automation runs, and AI improvement feedback for dashboard signals."
-  });
+    await seedDemoOperations(input.organizationId);
+    steps.push({
+      label: "Create executive dashboard",
+      status: "complete",
+      detail: "Seeded tickets, automation runs, and AI improvement feedback for dashboard signals."
+    });
+  } else {
+    steps.push({
+      label: "Prepare support workspace",
+      status: "skipped",
+      detail: "Production workspace starts with no sample conversations. Real customer chats will populate this area."
+    });
+  }
 
   return {
     ok: true as const,

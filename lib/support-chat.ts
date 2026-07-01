@@ -142,13 +142,7 @@ type ConversationMemory = {
   priority: string | null;
 };
 
-const defaultSuggestedQuestions = [
-  "My credits disappeared",
-  "My render failed",
-  "How do I upgrade?",
-  "Can I use images commercially?",
-  "My API isn't working"
-];
+const defaultSuggestedQuestions: string[] = [];
 
 export function getSupportChatRuntimeStatus(needsOpenAI = true) {
   const status = getBackendConfigStatus();
@@ -222,8 +216,12 @@ export async function listSupportConversations(organizationId: string) {
 
   if (error) return pipelineError("conversation_list_failed", error.message);
 
+  const visibleConversations = (data || []).filter((conversation) =>
+    serverEnv.demoMode || !(conversation.metadata as Record<string, unknown> | null)?.demoGenerated
+  );
+
   const items = await Promise.all(
-    (data || []).map(async (conversation): Promise<SupportConversationListItem> => {
+    visibleConversations.map(async (conversation): Promise<SupportConversationListItem> => {
       const { data: lastMessages } = await supabase
         .from("messages")
         .select("content")
@@ -264,6 +262,12 @@ export async function getSupportConversation(organizationId: string, conversatio
     .maybeSingle();
 
   if (conversationError) return pipelineError("conversation_load_failed", conversationError.message);
+  if (!serverEnv.demoMode && (conversation?.metadata as Record<string, unknown> | null)?.demoGenerated) {
+    return {
+      ok: true as const,
+      data: null
+    };
+  }
   if (!conversation) {
     return {
       ok: true as const,
